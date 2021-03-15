@@ -1,6 +1,9 @@
 import dash
-import pandas
+import pandas as pd
+import dash_core_components as dcc
+import dash_html_components as html
 
-df = pd.read_csv('Population_Colorado.csv')
 
-print(df.tail())
+new_df = pd.read_csv('pop.csv')
+print(new_df.tail())
+
