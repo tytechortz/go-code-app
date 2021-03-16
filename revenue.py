@@ -9,7 +9,11 @@ app.config['suppress_callback_exceptions']=True
 
 server = app.server
 
-df_pop = pd.read_csv('pop.csv')
+# df_pop = pd.read_csv('pop.csv')
+df_pop = pd.read_csv('https://data.colorado.gov/resource/eeah-cmy8.csv')
+df_pop = df_pop.drop(['age', 'malepopulation', 'femalepopulation'], axis=1)
+df_pop = df_pop.groupby(['county', 'year'], as_index=False)['totalpopulation'].sum()
+print(df_pop.head())
 
 counties = []
 
