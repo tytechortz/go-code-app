@@ -23,13 +23,20 @@ for i in df_pop.county.unique():
 def revenue_App():
      return html.Div([
                html.Div([
-                    html.Div([
-                         html.H4(
-                              'COLORADO CANNABIS REVENUE',
-                         )
-                    ],
-                         className='twelve colums'
-                    ),
+                    html.H4(
+                         'COLORADO CANNABIS REVENUE',
+                         className='twelve columns',
+                         style={'text-align': 'center'}
+                    )
+               ],
+                    className='row'
+               ),
+               html.Div([
+                    html.H4(
+                         'County Population and Projected Growth',
+                         className='twelve columns',
+                         style={'text-align': 'center'}
+                    )
                ],
                     className='row'
                ),
@@ -51,14 +58,25 @@ def revenue_App():
                          html.Div([
                               dcc.Graph(
                                    id='county-pop-graph'),
-                         ]),
-                         html.Div([
-                              
                          ],
-                              className='row'
+                              className='eight columns'
                          ),
-                    ])
-               ])
+                              html.Div([
+                                   html.Div([
+                                        html.Div(id='pop-stats') 
+                                        ],
+                                             className='round1'
+                                        ), 
+                              ],
+                                   className='three columns'
+                              ),
+                         ],
+                              className='twelve columns'
+                         ),
+               ],
+                    className='row'
+               ),
+               
           
      ])
 

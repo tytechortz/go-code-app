@@ -58,6 +58,23 @@ def display_cnty_pop(selected_county):
 
      return fig
 
+@app.callback(
+     Output('pop-stats', 'children'),
+     Input('county', 'value'))
+def county_pop_stats(county):
+
+     return html.Div([
+               html.Div('{} County Pop. Stats'.format('Denver'), style={'text-align':'center'}),
+               html.Div([
+                    html.Div('More Stuff', style={'text-align':'center'}),
+               ],
+                    className='round1'
+               ),
+          ],
+               className='round1'
+          ),
+          
+
 if __name__ == '__main__':
     app.run_server(port=8080, debug=True)
 
