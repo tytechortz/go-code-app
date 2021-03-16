@@ -42,7 +42,7 @@ def display_month_selector(county):
           dcc.Dropdown(
                id='county',
                options=[{'label':i, 'value':i} for i in counties], 
-               value="Denver"  
+               value='Denver' 
           ),
      ],
           className='pretty_container'

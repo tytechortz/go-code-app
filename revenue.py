@@ -24,11 +24,24 @@ def revenue_App():
      return html.Div([
                html.Div([
                     html.Div([
-                         html.H2(
-                              'COLORADO CANNABIS',
+                         html.H4(
+                              'COLORADO CANNABIS REVENUE',
                          )
                     ],
                          className='twelve colums'
+                    ),
+               ],
+                    className='row'
+               ),
+               html.Div([
+                    html.Div([
+                         dcc.Dropdown(
+                                   id='county',
+                                   options=[{'label':i, 'value':i} for i in counties],
+                                   value='Denver'
+                              ),
+                    ],
+                         className='three columns'
                     ),
                ],
                     className='row'
@@ -40,18 +53,13 @@ def revenue_App():
                                    id='county-pop-graph'),
                          ]),
                          html.Div([
-                              # html.Div(id='county-selector'),
-                              dcc.Dropdown(
-                                   id='county',
-                                   options=[{'label':i, 'value':i} for i in counties],
-                              ),
+                              
                          ],
-                              className='twelve columns'
+                              className='row'
                          ),
-                    ],
-                         className='row'
-                    ),
+                    ])
                ])
+          
      ])
 
 app.layout = revenue_App
