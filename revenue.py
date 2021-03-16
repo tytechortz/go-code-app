@@ -16,40 +16,42 @@ counties = []
 for i in df_pop.county.unique():
      counties.append(i)
 
+# print(counties)
 
 
-# def revenue_App():
-#      return html.Div([
-#                html.Div([
-#                     html.Div([
-#                          html.H2(
-#                               'COLORADO CANNABIS',
-#                          )
-#                     ],
-#                          className='twelve colums'
-#                     ),
-#                ],
-#                     className='row'
-#                ),
-#                html.Div([
-#                     html.Div([
-#                          html.Div([
-#                               dcc.Graph(
-#                                    id='county-pop-graph',
-#                               ),
-#                          ]),
-#                          html.Div([
-#                               dcc.Dropdown(
-#                                    id='county',
-#                                    options=[{'label':i, 'value':i} for i in counties],
-#                               ),
-#                          ])
-#                     ],
-#                          className='twelve columns'
-#                     ),
-#                ],
-#                     className='row'
-#                ),
-#      ])
 
-# app.layout = revenue_App
+def revenue_App():
+     return html.Div([
+               html.Div([
+                    html.Div([
+                         html.H2(
+                              'COLORADO CANNABIS',
+                         )
+                    ],
+                         className='twelve colums'
+                    ),
+               ],
+                    className='row'
+               ),
+               html.Div([
+                    html.Div([
+                         html.Div([
+                              dcc.Graph(
+                                   id='county-pop-graph'),
+                         ]),
+                         html.Div([
+                              # html.Div(id='county-selector'),
+                              dcc.Dropdown(
+                                   id='county',
+                                   options=[{'label':i, 'value':i} for i in counties],
+                              ),
+                         ],
+                              className='twelve columns'
+                         ),
+                    ],
+                         className='row'
+                    ),
+               ])
+     ])
+
+app.layout = revenue_App

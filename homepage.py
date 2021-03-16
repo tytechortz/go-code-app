@@ -9,11 +9,16 @@ body = dbc.Container([
                html.H2(
                     'Cannabis Revenue'
                ),
-
           ],
-               className='six columns'
+               className='twelve columns'
           ),
-
+     ],
+          className='row'
+     ),
+     html.Div([
+          html.Div([
+               dbc.Button('Open Revenue', color='primary', href='/revenue')
+          ])
      ],
           className='row'
      ),
