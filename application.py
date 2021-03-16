@@ -8,24 +8,40 @@ external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
+df = pd.read_csv('pop.csv')
+
 colors = {
     'background': '#111111',
     'text': '#7FDBFF'
 }
 
-selected_cnty = 'Yuma'
+counties = []
 
-df = pd.read_csv('pop.csv')
+for i in df.county.unique():
+  counties.append(i)
+
+print(counties)
+selected_cnty = 'Denver'
+
+
 print(df.tail())
-filtered_df = df[df['county']==selected_cnty]
+df = df[df['county']==selected_cnty]
 
-fig = px.bar(filtered_df, x='year', y='totalPopulation')
+fig = px.bar(df, x='year', y='totalPopulation')
+
+
+
+
 
 app.layout = html.Div(style={'backgroundColor': colors['background']}, children=[
   dcc.Graph(
     id='pop-graph',
     figure=fig
-  )
+  ),
+  dcc.Dropdown(
+    id='county',
+    options=[{'label':i, 'value':i} for i in counties],
+  ),
 ])
 
 if __name__ == '__main__':
