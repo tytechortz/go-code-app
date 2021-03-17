@@ -89,9 +89,9 @@ def county_pop_stats(county, selected_year):
      return html.Div([
                html.Div('{} County Pop. Stats'.format(county), style={'text-align':'center'}),
                html.Div([
-                    html.Div('Current Population', style={'text-align':'center'}),
+                    html.Div('{} Population'.format(selected_year[0]), style={'text-align':'center'}),
                     html.Div('{:,.0f}'.format(current_pop.iloc[-1][-1]), style={'text-align':'center'}),
-                    html.Div('{} Projected Pop'.format(selected_year), style={'text-align':'center'}),
+                    html.Div('{} Population'.format(selected_year[1]), style={'text-align':'center'}),
                     html.Div('{:,.0f}'.format(selected_year_pop.iloc[-1][-1]), style={'text-align':'center'}),
                     html.Div('Projected Change', style={'text-align':'center'}),
                     html.Div('{0:.0%}'.format(pop_change), style={'text-align':'center'}),
