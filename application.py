@@ -73,9 +73,10 @@ def display_cnty_pop(selected_county, selected_year):
      [Input('county', 'value'),
      Input('year', 'value')])
 def county_pop_stats(county, selected_year):
-     # print(selected_year)
-     current_year = df_pop['year'] == '2021'
-     projected_year = df_pop['year'] == str(selected_year)
+     print(selected_year[0])
+     current_year = df_pop['year'] == str(selected_year[0])
+     print(current_year)
+     projected_year = df_pop['year'] == str(selected_year[1])
      selected_county = df_pop['county'] == county
      current_pop = df_pop[current_year & selected_county]
      selected_year_pop = df_pop[projected_year & selected_county]
