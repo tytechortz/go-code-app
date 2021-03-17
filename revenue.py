@@ -49,19 +49,6 @@ def revenue_App():
                ),
                html.Div([
                     html.Div([
-                         dcc.Dropdown(
-                                   id='county',
-                                   options=[{'label':i, 'value':i} for i in counties],
-                                   value='Denver'
-                              ),
-                    ],
-                         className='three columns'
-                    ),
-               ],
-                    className='row'
-               ),
-               html.Div([
-                    html.Div([
                          html.Div([
                               dcc.Graph(
                                    id='county-pop-graph'),
@@ -83,7 +70,28 @@ def revenue_App():
                ],
                     className='row'
                ),
-               
+               html.Div([
+                    html.Div([
+                         dcc.Dropdown(
+                                   id='county',
+                                   options=[{'label':i, 'value':i} for i in counties],
+                                   value='Denver'
+                              ),
+                    ],
+                         className='three columns'
+                    ),
+                    html.Div([
+                         dcc.Dropdown(
+                                   id='year',
+                                   options=[{'label':x, 'value':x} for x in range(1990, 2050)],
+                                   value=1990
+                              ),
+                    ],
+                         className='three columns'
+                    ),
+               ],
+                    className='row'
+               ),
           
      ])
 
