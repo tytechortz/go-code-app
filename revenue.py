@@ -83,8 +83,8 @@ def revenue_App():
                     html.Div([
                          dcc.Dropdown(
                                    id='year',
-                                   options=[{'label':x, 'value':x} for x in range(1990, 2050)],
-                                   value=1990
+                                   options=[{'label':x, 'value':x} for x in range(2022, 2050)],
+                                   value=2022
                               ),
                     ],
                          className='three columns'

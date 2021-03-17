@@ -40,14 +40,22 @@ def display_page(pathname):
 def display_month_selector(county):
      
      return html.P('Select County', style={'text-align': 'center'}), html.Div([
-          dcc.Dropdown(
-               id='county',
-               options=[{'label':i, 'value':i} for i in counties], 
-               value='Denver' 
-          ),
+          dcc.Dropdown(id='county'),
      ],
           className='pretty_container'
      ),
+
+@app.callback(
+    Output('year-selector', 'children'),
+    [Input('year', 'value')])
+def display_month_selector(year):
+     
+     return html.P('Select County', style={'text-align': 'center'}), html.Div([
+          dcc.Dropdown(id='year'),
+     ],
+          className='pretty_container'
+     ),
+
 
 @app.callback(
      Output('county-pop-graph', 'figure'),
@@ -61,26 +69,28 @@ def display_cnty_pop(selected_county):
 
 @app.callback(
      Output('pop-stats', 'children'),
-     Input('county', 'value'))
-def county_pop_stats(county):
+     [Input('county', 'value'),
+     Input('year', 'value')])
+def county_pop_stats(county, selected_year):
+     print(selected_year)
      current_year = df_pop['year'] == '2021'
-     projected_year = df_pop['year'] == '2050'
+     projected_year = df_pop['year'] == str(selected_year)
      selected_county = df_pop['county'] == county
      current_pop = df_pop[current_year & selected_county]
-     pop_2050 = df_pop[projected_year & selected_county]
-     print(pop_2050)
-     if pop_2050.iloc[-1][-1] > current_pop.iloc[-1][-1]:
-          pop_change = (pop_2050.iloc[-1][-1] - current_pop.iloc[-1][-1]) / current_pop.iloc[-1][-1]
+     selected_year_pop = df_pop[projected_year & selected_county]
+     print(selected_year_pop)
+     if selected_year_pop.iloc[-1][-1] > current_pop.iloc[-1][-1]:
+          pop_change = (selected_year_pop.iloc[-1][-1] - current_pop.iloc[-1][-1]) / current_pop.iloc[-1][-1]
      else:
-          pop_change = -((current_pop.iloc[-1][-1] - pop_2050.iloc[-1][-1]) / current_pop.iloc[-1][-1])
+          pop_change = -((current_pop.iloc[-1][-1] - selected_year_pop.iloc[-1][-1]) / current_pop.iloc[-1][-1])
      # print(pop_2050)
      return html.Div([
                html.Div('{} County Pop. Stats'.format(county), style={'text-align':'center'}),
                html.Div([
                     html.Div('Current Population', style={'text-align':'center'}),
                     html.Div('{:,.0f}'.format(current_pop.iloc[-1][-1]), style={'text-align':'center'}),
-                    html.Div('2050 Projected Pop', style={'text-align':'center'}),
-                    html.Div('{:,.0f}'.format(pop_2050.iloc[-1][-1]), style={'text-align':'center'}),
+                    html.Div('{} Projected Pop'.format(selected_year), style={'text-align':'center'}),
+                    html.Div('{:,.0f}'.format(selected_year_pop.iloc[-1][-1]), style={'text-align':'center'}),
                     html.Div('Projected Change', style={'text-align':'center'}),
                     html.Div('{0:.0%}'.format(pop_change), style={'text-align':'center'}),
                ],
