@@ -7,11 +7,14 @@ from dash.dependencies import Input, Output, State
 import plotly.express as px
 from homepage import Homepage
 from revenue import revenue_App, df_pop
+import os
 
+# require('dotenv').config()
 
 app = dash.Dash()
 application = app.server
 app.config.suppress_callback_exceptions = True
+
 
 # df = pd.read_csv('pop.csv')
 
@@ -73,9 +76,9 @@ def display_cnty_pop(selected_county, selected_year):
      [Input('county', 'value'),
      Input('year', 'value')])
 def county_pop_stats(county, selected_year):
-     print(selected_year[0])
+     # print(selected_year[0])
      current_year = df_pop['year'] == str(selected_year[0])
-     print(current_year)
+     # print(current_year)
      projected_year = df_pop['year'] == str(selected_year[1])
      selected_county = df_pop['county'] == county
      current_pop = df_pop[current_year & selected_county]
@@ -101,6 +104,8 @@ def county_pop_stats(county, selected_year):
           ],
                className='round1'
           ),
+
+
           
 
 if __name__ == '__main__':
