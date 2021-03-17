@@ -54,8 +54,8 @@ def display_month_selector(county):
      Input('county', 'value'))
 def display_cnty_pop(selected_county):
      df_county_pop = df_pop[df_pop['county'] == selected_county]
-     print(df_county_pop)
-     fig = px.bar(df_county_pop, x='year', y='totalPopulation')
+     # print(df_county_pop)
+     fig = px.bar(df_county_pop, x='year', y='totalpopulation')
 
      return fig
 
@@ -63,16 +63,17 @@ def display_cnty_pop(selected_county):
      Output('pop-stats', 'children'),
      Input('county', 'value'))
 def county_pop_stats(county):
-     current_year = df_pop['year'] == 2021
-     projected_year = df_pop['year'] == 2050
+     current_year = df_pop['year'] == '2021'
+     projected_year = df_pop['year'] == '2050'
      selected_county = df_pop['county'] == county
      current_pop = df_pop[current_year & selected_county]
      pop_2050 = df_pop[projected_year & selected_county]
+     print(pop_2050)
      if pop_2050.iloc[-1][-1] > current_pop.iloc[-1][-1]:
           pop_change = (pop_2050.iloc[-1][-1] - current_pop.iloc[-1][-1]) / current_pop.iloc[-1][-1]
      else:
           pop_change = -((current_pop.iloc[-1][-1] - pop_2050.iloc[-1][-1]) / current_pop.iloc[-1][-1])
-     print(pop_2050)
+     # print(pop_2050)
      return html.Div([
                html.Div('{} County Pop. Stats'.format(county), style={'text-align':'center'}),
                html.Div([
