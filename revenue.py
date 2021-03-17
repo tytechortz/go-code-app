@@ -49,6 +49,19 @@ def revenue_App():
                ),
                html.Div([
                     html.Div([
+                         dcc.Dropdown(
+                                   id='county',
+                                   options=[{'label':i, 'value':i} for i in counties],
+                                   value='Denver'
+                              ),
+                    ],
+                         className='three columns'
+                    ),
+               ],
+                    className='row'
+               ),
+               html.Div([
+                    html.Div([
                          html.Div([
                               dcc.Graph(
                                    id='county-pop-graph'),
@@ -72,22 +85,16 @@ def revenue_App():
                ),
                html.Div([
                     html.Div([
-                         dcc.Dropdown(
-                                   id='county',
-                                   options=[{'label':i, 'value':i} for i in counties],
-                                   value='Denver'
-                              ),
-                    ],
-                         className='three columns'
-                    ),
-                    html.Div([
-                         dcc.Dropdown(
+                         dcc.RangeSlider(
                                    id='year',
-                                   options=[{'label':x, 'value':x} for x in range(2022, 2050)],
-                                   value=2022
+                                   min=1990,
+                                   max=2050,
+                                   step=1,
+                                   # options=[{'label':x, 'value':x} for x in range(2022, 2050)],
+                                   value=[2021,2050]
                               ),
                     ],
-                         className='three columns'
+                         className='eight columns'
                     ),
                ],
                     className='row'

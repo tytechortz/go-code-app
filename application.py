@@ -50,8 +50,8 @@ def display_month_selector(county):
     [Input('year', 'value')])
 def display_month_selector(year):
      
-     return html.P('Select County', style={'text-align': 'center'}), html.Div([
-          dcc.Dropdown(id='year'),
+     return html.P('Select Year', style={'text-align': 'center'}), html.Div([
+          dcc.RangeSliderr(id='year'),
      ],
           className='pretty_container'
      ),
@@ -59,10 +59,11 @@ def display_month_selector(year):
 
 @app.callback(
      Output('county-pop-graph', 'figure'),
-     Input('county', 'value'))
-def display_cnty_pop(selected_county):
+     [Input('county', 'value'),
+     Input('year', 'value')])
+def display_cnty_pop(selected_county, selected_year):
      df_county_pop = df_pop[df_pop['county'] == selected_county]
-     # print(df_county_pop)
+     
      fig = px.bar(df_county_pop, x='year', y='totalpopulation')
 
      return fig
@@ -72,13 +73,13 @@ def display_cnty_pop(selected_county):
      [Input('county', 'value'),
      Input('year', 'value')])
 def county_pop_stats(county, selected_year):
-     print(selected_year)
+     # print(selected_year)
      current_year = df_pop['year'] == '2021'
      projected_year = df_pop['year'] == str(selected_year)
      selected_county = df_pop['county'] == county
      current_pop = df_pop[current_year & selected_county]
      selected_year_pop = df_pop[projected_year & selected_county]
-     print(selected_year_pop)
+     # print(selected_year_pop)
      if selected_year_pop.iloc[-1][-1] > current_pop.iloc[-1][-1]:
           pop_change = (selected_year_pop.iloc[-1][-1] - current_pop.iloc[-1][-1]) / current_pop.iloc[-1][-1]
      else:
