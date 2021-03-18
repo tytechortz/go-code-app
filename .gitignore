@@ -1,3 +1,5 @@
 venv
 .env
 config.py
+Colorado_County_Boundaries.geojson
+Colorado_County_Boundaries.json

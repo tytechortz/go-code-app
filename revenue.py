@@ -3,7 +3,9 @@ import dash_html_components as html
 import dash_core_components as dcc
 import pandas as pd
 import os
+import geopandas as gpd 
 from sodapy import Socrata
+import json
 
 app = dash.Dash()
 app.config['suppress_callback_exceptions']=True
@@ -20,10 +22,19 @@ df_pop = df_pop.drop(['age', 'malepopulation', 'femalepopulation'], axis=1)
 df_pop = df_pop.groupby(['year', 'county'], as_index=False)['totalpopulation'].sum()
 
 df_revenue = pd.DataFrame.from_records(mj_results)
+# print(df_revenue)
+# counties = gpd.read_file('./Colorado_County_Boundaries.geojson')
+with open('./Colorado_County_Boundaries.json') as json_file:
+# with open(counties) as json_file:
+    jdata = json_file.read()
+    topoJSON = json.loads(jdata)
+    
+sources=[]
+for feat in topoJSON['features']: 
+        sources.append({"type": "FeatureCollection", 'features': [feat]})
 
-print(df_revenue)
 
-
+print(sources)
 counties = []
 
 for i in df_pop.county.unique():
