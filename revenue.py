@@ -34,7 +34,7 @@ for feat in topoJSON['features']:
         sources.append({"type": "FeatureCollection", 'features': [feat]})
 
 
-print(sources)
+# print(sources)
 counties = []
 
 for i in df_pop.county.unique():
