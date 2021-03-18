@@ -112,6 +112,19 @@ def revenue_App():
                ],
                     className='row'
                ),
+               html.Div([
+                    html.Div([
+                         html.Div([
+                              dcc.Graph('revenue-map')
+                         ],
+                              className='eight colums'
+                         ),
+                    ],
+                         className='twelve columns'
+                    ),
+               ],
+                    className='row'
+               ),
           
      ])
 
