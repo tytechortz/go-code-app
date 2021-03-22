@@ -68,11 +68,11 @@ def display_month_selector(year):
      [Input('revenue-map', 'clickData'),
      Input('year', 'value')])
 def display_cnty_pop(clickData, selected_year):
-     print(clickData)
+     # print(clickData)
      county = clickData['points'][-1]['text']
-     print(county)
+     # print(county)
      df_county_pop = df_pop[df_pop['county'] == county]
-     print(df_county_pop)
+     # print(df_county_pop)
      
      fig = px.bar(df_county_pop, x='year', y='totalpopulation')
 
@@ -126,7 +126,7 @@ def update_rev_map(year):
   
     rpd_s = rpd_s.apply(pd.to_numeric, errors='ignore')
     rpd_s = rpd_s.fillna(0)
-#     print(rpd_s.columns)
+    print(rpd_s.columns)
 
     counties_s = counties.sort_values(by=['US_FIPS'])
   
