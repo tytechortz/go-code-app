@@ -62,6 +62,17 @@ def display_month_selector(year):
           className='pretty_container'
      ),
 
+@app.callback(
+    Output('year-selector2', 'children'),
+    [Input('yea2r', 'value')])
+def display_month_selector(year):
+     
+     return html.P('Select Year', style={'text-align': 'center'}), html.Div([
+          dcc.Sliderr(id='year2'),
+     ],
+          className='pretty_container'
+     ),
+
 
 @app.callback(
      Output('county-pop-graph', 'figure'),
@@ -115,20 +126,22 @@ def county_pop_stats(clickData, selected_year):
 
 @app.callback(
     Output('revenue-map', 'figure'),
-    [Input('year', 'value')])         
-def update_rev_map(year):
-    print(year)
-    year='2018'
-    year1 = str(year)
+    [Input('year2', 'value')])         
+def update_rev_map(selected_year):
+    print(selected_year)
+#     year='2018'
+    year1 = str(selected_year)
     print(year1)
     year2 = year1[-2:]
+    print(year2)
     rpd_s = rpd.sort_values(by=['RId2'])
   
     rpd_s = rpd_s.apply(pd.to_numeric, errors='ignore')
     rpd_s = rpd_s.fillna(0)
-    print(rpd_s.columns)
+#     print(rpd_s.columns)
 
     counties_s = counties.sort_values(by=['US_FIPS'])
+#     print(counties_s.columns)
   
     selected_med_rev = rpd_s.loc[ : ,'Rper_cap_med_'+year2+'']
     selected_rec_rev = rpd_s.loc[ : ,'Rper_cap_rec_'+year2+'']
@@ -136,8 +149,9 @@ def update_rev_map(year):
     df_smr = pd.DataFrame({'name': selected_med_rev.index, 'med_rev': selected_med_rev.values, 'rec_rev': 
             selected_rec_rev.values, 'tot_rev': selected_med_rev.values + selected_rec_rev.values,'CENT_LAT':counties_s['CENT_LAT'],
                 'CENT_LON':counties_s['CENT_LONG'], 'marker_size':(selected_med_rev.values + selected_rec_rev.values)*(.3**3)})
-
-    df_year = df_revenue.loc[df_revenue['year'] == year]
+#     print(df_smr)
+#     print(df_smr.columns)
+    df_year = df_revenue.loc[df_revenue['year'] == year2]
 #     print(df_year)
  
     df_year_filtered = df_year.loc[df_year['color'] == 'red']

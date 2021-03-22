@@ -16,6 +16,7 @@ client = Socrata("data.colorado.gov", None)
 
 pop_results = client.get("q5vp-adf3", limit=381504)
 mj_results = client.get("j7a3-jgd3", limit=6000)
+
 df_pop = pd.DataFrame.from_records(pop_results)
 df_pop['totalpopulation'] = df_pop['totalpopulation'].astype(int)
 df_pop = df_pop.drop(['age', 'malepopulation', 'femalepopulation'], axis=1)
@@ -26,12 +27,15 @@ df_revenue = pd.DataFrame.from_records(mj_results)
 df_revenue['county'] = df_revenue['county'].str.upper()
 
 df_revenue.fillna(0, inplace=True)
-print(df_revenue)
+
 df_revenue['med_sales'] = df_revenue['med_sales'].astype(int)
 df_revenue['rec_sales'] = df_revenue['rec_sales'].astype(int)
 df_revenue['tot_sales'] = df_revenue['med_sales'] + df_revenue['rec_sales']
 df_revenue.loc[df_revenue['tot_sales'] > 0, 'color'] = 'red'
 df_revenue.loc[df_revenue['tot_sales'] == 0, 'color'] = 'blue'
+df_revenue = df_revenue.drop(['med_blank_code','rec_blank_code'], 1)
+# print(df_revenue)
+# print(df_revenue.columns)
 
 with open('./Colorado_County_Boundaries.json') as json_file:
     jdata = json_file.read()
@@ -43,20 +47,25 @@ for feat in topoJSON['features']:
 
 
 pop_rev = gpd.read_file('./per_cap_joined.geojson')
+
 rpd = pop_rev.set_index('COUNTY', drop=False)
+print(rpd)
+print(rpd.columns)
+# print(rpd)
 # print(df_revenue)
 # counties = gpd.read_file('./Colorado_County_Boundaries.geojson')
-with open('./Colorado_County_Boundaries.json') as json_file:
-# with open(counties) as json_file:
-    jdata = json_file.read()
-    topoJSON = json.loads(jdata)
+# with open('./Colorado_County_Boundaries.json') as json_file:
+# # with open(counties) as json_file:
+#     jdata = json_file.read()
+#     topoJSON = json.loads(jdata)
     
-sources=[]
-for feat in topoJSON['features']: 
-        sources.append({"type": "FeatureCollection", 'features': [feat]})
+# sources=[]
+# for feat in topoJSON['features']: 
+#         sources.append({"type": "FeatureCollection", 'features': [feat]})
 
 counties = gpd.read_file('./Colorado_County_Boundaries.geojson')
 counties.sort_values(by=['US_FIPS'])
+# print(counties)
 
 # print(sources)
 counties_list = []
@@ -108,6 +117,22 @@ def revenue_App():
                                    step=1,
                                    # options=[{'label':x, 'value':x} for x in range(2022, 2050)],
                                    value=[2021,2050]
+                              ),
+                    ],
+                         className='eight columns'
+                    ),
+               ],
+                    className='row'
+               ),
+               html.Div([
+                    html.Div([
+                         dcc.Slider(
+                                   id='year2',
+                                   min=1990,
+                                   max=2050,
+                                   step=1,
+                                   # options=[{'label':x, 'value':x} for x in range(2022, 2050)],
+                                   value=2021
                               ),
                     ],
                          className='eight columns'
