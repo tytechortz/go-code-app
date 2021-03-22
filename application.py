@@ -80,13 +80,14 @@ def display_cnty_pop(clickData, selected_year):
 
 @app.callback(
      Output('pop-stats', 'children'),
-     [Input('county', 'value'),
+     [Input('revenue-map', 'clickData'),
      Input('year', 'value')])
-def county_pop_stats(county, selected_year):
+def county_pop_stats(clickData, selected_year):
      # print(selected_year[0])
      current_year = df_pop['year'] == str(selected_year[0])
      # print(current_year)
      projected_year = df_pop['year'] == str(selected_year[1])
+     county = clickData['points'][-1]['text']
      selected_county = df_pop['county'] == county
      current_pop = df_pop[current_year & selected_county]
      selected_year_pop = df_pop[projected_year & selected_county]

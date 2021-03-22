@@ -88,17 +88,46 @@ def revenue_App():
                ),
                html.Div([
                     html.Div([
-                         dcc.Dropdown(
-                                   id='county',
-                                   options=[{'label':i, 'value':i} for i in counties_list],
-                                   value='Denver'
-                              ),
+                         html.Div([
+                              dcc.Graph('revenue-map')
+                         ],
+                              className='twelve colums'
+                         ),
                     ],
-                         className='three columns'
+                         className='eight columns'
                     ),
                ],
                     className='row'
                ),
+               html.Div([
+                    html.Div([
+                         dcc.RangeSlider(
+                                   id='year',
+                                   min=1990,
+                                   max=2050,
+                                   step=1,
+                                   # options=[{'label':x, 'value':x} for x in range(2022, 2050)],
+                                   value=[2021,2050]
+                              ),
+                    ],
+                         className='eight columns'
+                    ),
+               ],
+                    className='row'
+               ),
+               # html.Div([
+               #      html.Div([
+               #           dcc.Dropdown(
+               #                     id='county',
+               #                     options=[{'label':i, 'value':i} for i in counties_list],
+               #                     value='Denver'
+               #                ),
+               #      ],
+               #           className='three columns'
+               #      ),
+               # ],
+               #      className='row'
+               # ),
                html.Div([
                     html.Div([
                          html.Div([
@@ -122,36 +151,6 @@ def revenue_App():
                ],
                     className='row'
                ),
-               html.Div([
-                    html.Div([
-                         dcc.RangeSlider(
-                                   id='year',
-                                   min=1990,
-                                   max=2050,
-                                   step=1,
-                                   # options=[{'label':x, 'value':x} for x in range(2022, 2050)],
-                                   value=[2021,2050]
-                              ),
-                    ],
-                         className='eight columns'
-                    ),
-               ],
-                    className='row'
-               ),
-               html.Div([
-                    html.Div([
-                         html.Div([
-                              dcc.Graph('revenue-map')
-                         ],
-                              className='twelve colums'
-                         ),
-                    ],
-                         className='eight columns'
-                    ),
-               ],
-                    className='row'
-               ),
-          
      ])
 
 app.layout = revenue_App
