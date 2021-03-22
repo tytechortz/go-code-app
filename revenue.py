@@ -20,8 +20,30 @@ df_pop = pd.DataFrame.from_records(pop_results)
 df_pop['totalpopulation'] = df_pop['totalpopulation'].astype(int)
 df_pop = df_pop.drop(['age', 'malepopulation', 'femalepopulation'], axis=1)
 df_pop = df_pop.groupby(['year', 'county'], as_index=False)['totalpopulation'].sum()
+df_pop['county'] = df_pop['county'].str.upper()
 
 df_revenue = pd.DataFrame.from_records(mj_results)
+df_revenue['county'] = df_revenue['county'].str.upper()
+
+df_revenue.fillna(0, inplace=True)
+print(df_revenue)
+df_revenue['med_sales'] = df_revenue['med_sales'].astype(int)
+df_revenue['rec_sales'] = df_revenue['rec_sales'].astype(int)
+df_revenue['tot_sales'] = df_revenue['med_sales'] + df_revenue['rec_sales']
+df_revenue.loc[df_revenue['tot_sales'] > 0, 'color'] = 'red'
+df_revenue.loc[df_revenue['tot_sales'] == 0, 'color'] = 'blue'
+
+with open('./Colorado_County_Boundaries.json') as json_file:
+    jdata = json_file.read()
+    topoJSON = json.loads(jdata)
+
+sources=[]
+for feat in topoJSON['features']: 
+        sources.append({"type": "FeatureCollection", 'features': [feat]})
+
+
+pop_rev = gpd.read_file('./per_cap_joined.geojson')
+rpd = pop_rev.set_index('COUNTY', drop=False)
 # print(df_revenue)
 # counties = gpd.read_file('./Colorado_County_Boundaries.geojson')
 with open('./Colorado_County_Boundaries.json') as json_file:
@@ -33,12 +55,16 @@ sources=[]
 for feat in topoJSON['features']: 
         sources.append({"type": "FeatureCollection", 'features': [feat]})
 
+counties = gpd.read_file('./Colorado_County_Boundaries.geojson')
+counties.sort_values(by=['US_FIPS'])
 
 # print(sources)
-counties = []
+counties_list = []
 
 for i in df_pop.county.unique():
-     counties.append(i)
+     counties_list.append(i)
+
+color_list = ['purple', 'darkblue', 'dodgerblue', 'darkgreen','black','lightgreen','yellow','orange', 'darkorange','red','darkred','violet']
 
 def revenue_App():
      return html.Div([
@@ -64,7 +90,7 @@ def revenue_App():
                     html.Div([
                          dcc.Dropdown(
                                    id='county',
-                                   options=[{'label':i, 'value':i} for i in counties],
+                                   options=[{'label':i, 'value':i} for i in counties_list],
                                    value='Denver'
                               ),
                     ],
@@ -117,10 +143,10 @@ def revenue_App():
                          html.Div([
                               dcc.Graph('revenue-map')
                          ],
-                              className='eight colums'
+                              className='twelve colums'
                          ),
                     ],
-                         className='twelve columns'
+                         className='eight columns'
                     ),
                ],
                     className='row'
