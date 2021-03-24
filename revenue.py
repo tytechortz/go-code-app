@@ -46,6 +46,7 @@ df['rec_rev_pc'] = np.where(df['rec_sales'] == 0, 0, df['rec_sales'] / df['total
 
 df['Date'] = pd.to_datetime(df[['year', 'month']].assign(Day=1))
 df = df.set_index('Date')
+df = df.sort_values('county')
 
 # print(df)
 # print(df_revenue)
