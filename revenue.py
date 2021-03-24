@@ -6,6 +6,7 @@ import os
 import geopandas as gpd 
 from sodapy import Socrata
 import json
+import numpy as np
 
 app = dash.Dash()
 app.config['suppress_callback_exceptions']=True
@@ -34,6 +35,18 @@ df_revenue['tot_sales'] = df_revenue['med_sales'] + df_revenue['rec_sales']
 df_revenue.loc[df_revenue['tot_sales'] > 0, 'color'] = 'red'
 df_revenue.loc[df_revenue['tot_sales'] == 0, 'color'] = 'blue'
 df_revenue = df_revenue.drop(['med_blank_code','rec_blank_code'], 1)
+
+df = pd.merge(df_revenue, df_pop, how='left', left_on=['county', 'year'], right_on=['county', 'year'])
+
+df['rev_per_cap'] = np.where(df['tot_sales'] == 0, 0, df['tot_sales'] / df['totalpopulation'])
+
+df['med_rev_pc'] = np.where(df['med_sales'] == 0, 0, df['med_sales'] / df['totalpopulation'])
+
+df['rec_rev_pc'] = np.where(df['rec_sales'] == 0, 0, df['rec_sales'] / df['totalpopulation'])
+
+df['Date'] = pd.to_datetime(df[['year', 'month']].assign(Day=1))
+
+# print(df)
 # print(df_revenue)
 # print(df_revenue.columns)
 
@@ -49,8 +62,8 @@ for feat in topoJSON['features']:
 pop_rev = gpd.read_file('./per_cap_joined.geojson')
 
 rpd = pop_rev.set_index('COUNTY', drop=False)
-print(rpd)
-print(rpd.columns)
+# print(rpd)
+# print(rpd.columns)
 # print(rpd)
 # print(df_revenue)
 # counties = gpd.read_file('./Colorado_County_Boundaries.geojson')

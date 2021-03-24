@@ -6,7 +6,7 @@ import dash_html_components as html
 from dash.dependencies import Input, Output, State
 import plotly.express as px
 from homepage import Homepage
-from revenue import revenue_App, df_pop, rpd, counties, df_revenue, sources 
+from revenue import revenue_App, df_pop, rpd, counties, df, sources 
 import os
 from dotenv import load_dotenv
 
@@ -125,77 +125,84 @@ def county_pop_stats(clickData, selected_year):
           ),
 
 @app.callback(
-    Output('revenue-map', 'figure'),
-    [Input('year2', 'value')])         
+     Output('revenue-map', 'figure'),
+     [Input('year2', 'value')])         
 def update_rev_map(selected_year):
-    print(selected_year)
+     print(selected_year)
 #     year='2018'
-    year1 = str(selected_year)
-    print(year1)
-    year2 = year1[-2:]
-    print(year2)
-    rpd_s = rpd.sort_values(by=['RId2'])
-  
-    rpd_s = rpd_s.apply(pd.to_numeric, errors='ignore')
-    rpd_s = rpd_s.fillna(0)
-#     print(rpd_s.columns)
+     year1 = str(selected_year)
+     print(year1)
+     year2 = year1[-2:]
+     print(year2)
+     rpd_s = rpd.sort_values(by=['RId2'])
+     # print(rpd_s)
+     rpd_s = rpd_s.apply(pd.to_numeric, errors='ignore')
+     rpd_s = rpd_s.fillna(0)
+     # print(rpd_s.columns)
 
-    counties_s = counties.sort_values(by=['US_FIPS'])
-#     print(counties_s.columns)
-  
-    selected_med_rev = rpd_s.loc[ : ,'Rper_cap_med_'+year2+'']
-    selected_rec_rev = rpd_s.loc[ : ,'Rper_cap_rec_'+year2+'']
-  
-    df_smr = pd.DataFrame({'name': selected_med_rev.index, 'med_rev': selected_med_rev.values, 'rec_rev': 
-            selected_rec_rev.values, 'tot_rev': selected_med_rev.values + selected_rec_rev.values,'CENT_LAT':counties_s['CENT_LAT'],
-                'CENT_LON':counties_s['CENT_LONG'], 'marker_size':(selected_med_rev.values + selected_rec_rev.values)*(.3**3)})
-#     print(df_smr)
-#     print(df_smr.columns)
-    df_year = df_revenue.loc[df_revenue['year'] == year2]
-#     print(df_year)
+     counties_s = counties.sort_values(by=['US_FIPS'])
+     #     print(counties_s.columns)
+     # print(df_revenue.head())
+     print(df)
+     # selected_med_rev = rpd_s.loc[ : ,'Rper_cap_med_'+year2+'']
+     # selected_rec_rev = rpd_s.loc[ : ,'Rper_cap_rec_'+year2+'']
+     # print(selected_med_rev)
+
+     selected_med_rev = df[(df['county'] == 'ADAMS')]
+     df.sort_values('id', inplace=True)
+     print(selected_med_rev)
+     # selected_rec_rev = rpd_s.loc[ : ,'Rper_cap_rec_'+year2+'']
+     
+     df_smr = pd.DataFrame({'name': selected_med_rev.index, 'med_rev': selected_med_rev.values, 'rec_rev': 
+               selected_rec_rev.values, 'tot_rev': selected_med_rev.values + selected_rec_rev.values,'CENT_LAT':counties_s['CENT_LAT'],
+                    'CENT_LON':counties_s['CENT_LONG'], 'marker_size':(selected_med_rev.values + selected_rec_rev.values)*(.3**3)})
+     #     print(df_smr)
+     #     print(df_smr.columns)
+     df_year = df_revenue.loc[df_revenue['year'] == year2]
+     #     print(df_year)
  
-    df_year_filtered = df_year.loc[df_year['color'] == 'red']
+     df_year_filtered = df_year.loc[df_year['color'] == 'red']
 
-    color_counties = df_year_filtered['county'].unique().tolist()
-    
-    def fill_color():
-        for k in range(len(sources)):
-            if sources[k]['features'][0]['properties']['COUNTY'] in color_counties:
-                sources[k]['features'][0]['properties']['COLOR'] = 'lightgreen'
-            else: sources[k]['features'][0]['properties']['COLOR'] = 'white'                 
-    fill_color()
+     color_counties = df_year_filtered['county'].unique().tolist()
+     
+     def fill_color():
+          for k in range(len(sources)):
+               if sources[k]['features'][0]['properties']['COUNTY'] in color_counties:
+                    sources[k]['features'][0]['properties']['COLOR'] = 'lightgreen'
+               else: sources[k]['features'][0]['properties']['COLOR'] = 'white'                 
+     fill_color()
 
     
-    layers=[dict(sourcetype = 'json',
-        source =sources[k],
-        below="water", 
-        type = 'fill',
-        color = sources[k]['features'][0]['properties']['COLOR'],
-        opacity = 0.5
-        ) for k in range(len(sources))]
-    data = [dict(
-        lat = df_smr['CENT_LAT'],
-        lon = df_smr['CENT_LON'],
-        text = df_smr['name'],
-        hoverinfo = 'text',
-        type = 'scattermapbox',
-     #    customdata = df['uid'],
-        marker = dict(size=df_smr['marker_size'],color='forestgreen',opacity=.5),
-        )]
-    layout = dict(
-            mapbox = dict(
-                accesstoken = os.environ.get("mapbox_token"),
-                center = dict(lat=39.05, lon=-105.5),
-                zoom = 5.85,
-                style = 'light',
-                layers = layers
-            ),
-            hovermode = 'closest',
-            height = 450,
-            margin = dict(r=0, l=0, t=0, b=0)
-            )
-    fig = dict(data=data, layout=layout)
-    return fig
+     layers=[dict(sourcetype = 'json',
+          source =sources[k],
+          below="water", 
+          type = 'fill',
+          color = sources[k]['features'][0]['properties']['COLOR'],
+          opacity = 0.5
+          ) for k in range(len(sources))]
+     data = [dict(
+          lat = df_smr['CENT_LAT'],
+          lon = df_smr['CENT_LON'],
+          text = df_smr['name'],
+          hoverinfo = 'text',
+          type = 'scattermapbox',
+          #    customdata = df['uid'],
+          marker = dict(size=df_smr['marker_size'],color='forestgreen',opacity=.5),
+          )]
+     layout = dict(
+               mapbox = dict(
+                    accesstoken = os.environ.get("mapbox_token"),
+                    center = dict(lat=39.05, lon=-105.5),
+                    zoom = 5.85,
+                    style = 'light',
+                    layers = layers
+               ),
+               hovermode = 'closest',
+               height = 450,
+               margin = dict(r=0, l=0, t=0, b=0)
+               )
+     fig = dict(data=data, layout=layout)
+     return fig
 
           
 

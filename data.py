@@ -43,8 +43,14 @@ df_pop = df_pop.groupby(['year', 'county'], as_index=False)['totalpopulation'].s
 
 new_df = pd.merge(df_rev_cty, df_pop, how='left', left_on=['county', 'year'], right_on=['county', 'year'])
 
-# new_df = new_df.fillna(0)
+new_df['rev_per_cap'] = np.where(new_df['total_sales'] == 0, 0, new_df['total_sales'] / new_df['totalpopulation'])
 
+new_df['med_rev_pc'] = np.where(new_df['med_sales'] == 0, 0, new_df['med_sales'] / new_df['totalpopulation'])
 
+new_df['rec_rev_pc'] = np.where(new_df['rec_sales'] == 0, 0, new_df['rec_sales'] / new_df['totalpopulation'])
 
-print(new_df.head(30))
+print(new_df.columns)
+
+cty_df = new_df[new_df['county'] == 'Adams']
+
+print(cty_df)
