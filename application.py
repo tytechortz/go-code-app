@@ -138,7 +138,7 @@ def update_rev_map(selected_year):
      # print(rpd_s)
      rpd_s = rpd_s.apply(pd.to_numeric, errors='ignore')
      rpd_s = rpd_s.fillna(0)
-     print(rpd_s.columns)
+     # print(rpd_s.columns)
 
      counties_s = counties.sort_values(by=['US_FIPS'])
      #     print(counties_s.columns)
@@ -148,14 +148,14 @@ def update_rev_map(selected_year):
      # selected_rec_rev = rpd_s.loc[ : ,'Rper_cap_rec_'+year2+'']
      # print(selected_med_rev)
 
-     selected_rev = df[(df['county'] == 'ADAMS') & (df['year'] == '2017')]
+     selected_rev = df[(df['county'] == 'ADAMS') & (df['year'] == 2017)]
      # df.sort_values('id', inplace=True)
      # print(selected_rev)
      # selected_rec_rev = rpd_s.loc[ : ,'Rper_cap_rec_'+year2+'']
 
-     df_smr = pd.DataFrame({'name': selected_rev.county, 'med_rev': selected_rev.med_sales, 'rec_sales': 
-               selected_rev.rec_sales, 'tot_sales': selected_rev.tot_sales,'CENT_LAT':counties_s['CENT_LAT'],
-                    'CENT_LON':counties_s['CENT_LONG'], 'marker_size':(selected_rev.tot_sales)*(.3**3)})
+     df_smr = pd.DataFrame({'name': df.county, 'med_rev': df.med_sales, 'rec_sales': 
+               df.rec_sales, 'tot_sales': df.tot_sales,'CENT_LAT':counties_s['CENT_LAT'],
+                    'CENT_LON':counties_s['CENT_LONG'], 'marker_size':(df.tot_sales)*(.3**3)})
      
      # df_smr = pd.DataFrame({'name': selected_rev.index, 'med_rev': selected_med_rev.values, 'rec_rev': 
      #           selected_rec_rev.values, 'tot_rev': selected_med_rev.values + selected_rec_rev.values,'CENT_LAT':counties_s['CENT_LAT'],
@@ -163,7 +163,8 @@ def update_rev_map(selected_year):
      #     print(df_smr)
      #     print(df_smr.columns)
      df_year = df.loc[df['year'] == int(year1)]
-     print(df_year)
+     # print(df_year)
+     # print(df_smr)
  
      df_year_filtered = df_year.loc[df_year['color'] == 'red']
 

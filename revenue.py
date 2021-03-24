@@ -83,7 +83,10 @@ rpd = pop_rev.set_index('COUNTY', drop=False)
 
 counties = gpd.read_file('./Colorado_County_Boundaries.geojson')
 counties.sort_values(by=['US_FIPS'])
-# print(counties)
+print(counties)
+print(counties.columns)
+df_lat_lon = counties[['COUNTY', 'CENT_LAT', 'CENT_LONG']]
+print(df_lat_lon)
 
 # print(sources)
 counties_list = []
