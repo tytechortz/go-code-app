@@ -163,10 +163,10 @@ def revenue_App():
                     html.Div([
                          dcc.Slider(
                                    id='year2',
-                                   min=1990,
-                                   max=2050,
+                                   min=2014,
+                                   max=2020,
                                    step=1,
-                                   # options=[{'label':x, 'value':x} for x in range(2022, 2050)],
+                                   marks={x: '{}'.format(x) for x in range(2014, 2020)},
                                    value=2014
                               ),
                     ],
