@@ -29,27 +29,34 @@ df_revenue = pd.DataFrame.from_records(mj_results)
 df_revenue['county'] = df_revenue['county'].str.upper()
 
 df_revenue.fillna(0, inplace=True)
+# print(df_revenue)
 
 df_revenue['med_sales'] = df_revenue['med_sales'].astype(int)
 df_revenue['rec_sales'] = df_revenue['rec_sales'].astype(int)
+
 df_revenue['tot_sales'] = df_revenue['med_sales'] + df_revenue['rec_sales']
-df_revenue['month'] = df_revenue['month'].astype(int)
-df_revenue['year'] = df_revenue['year'].astype(int)
+df_revenue = df_revenue.groupby(['year', 'county']).agg({'tot_sales': 'sum'})
+# print(df_revenue)
+df_revenue = df_revenue.reset_index()
+# print(df_revenue)
+# df_revenue['month'] = df_revenue['month'].astype(int)
+# df_revenue['year'] = df_revenue['year'].astype(int)
 df_revenue.loc[df_revenue['tot_sales'] > 0, 'color'] = 'red'
 df_revenue.loc[df_revenue['tot_sales'] == 0, 'color'] = 'blue'
-df_revenue = df_revenue.drop(['med_blank_code','rec_blank_code'], 1)
+# df_revenue = df_revenue.drop(['med_blank_code','rec_blank_code'], 1)
 
-df = pd.merge(df_revenue, df_pop, how='left', left_on=['county', 'year'], right_on=['county', 'year'])
+# df = pd.merge(df_revenue, df_pop, how='left', left_on=['county', 'year'], right_on=['county', 'year'])
 
-df['rev_per_cap'] = np.where(df['tot_sales'] == 0, 0, df['tot_sales'] / df['totalpopulation'])
+# df['rev_per_cap'] = np.where(df['tot_sales'] == 0, 0, df['tot_sales'] / df['totalpopulation'])
 
-df['med_rev_pc'] = np.where(df['med_sales'] == 0, 0, df['med_sales'] / df['totalpopulation'])
+# df['med_rev_pc'] = np.where(df['med_sales'] == 0, 0, df['med_sales'] / df['totalpopulation'])
 
-df['rec_rev_pc'] = np.where(df['rec_sales'] == 0, 0, df['rec_sales'] / df['totalpopulation'])
+# df['rec_rev_pc'] = np.where(df['rec_sales'] == 0, 0, df['rec_sales'] / df['totalpopulation'])
 
-df['Date'] = pd.to_datetime(df[['year', 'month']].assign(Day=1))
-df = df.set_index('Date')
-df = df.sort_values(['county', 'year', 'month'])
+# df['Date'] = pd.to_datetime(df[['year', 'month']].assign(Day=1))
+# df = df.set_index('Date')
+# print(df)
+# df = df.sort_values(['county', 'year', 'month'])
 
 # print(df)
 # print(df_revenue)
@@ -83,10 +90,17 @@ rpd = pop_rev.set_index('COUNTY', drop=False)
 
 counties = gpd.read_file('./Colorado_County_Boundaries.geojson')
 counties.sort_values(by=['US_FIPS'])
-print(counties)
-print(counties.columns)
+# print(counties)
+# print(counties.columns)
 df_lat_lon = counties[['COUNTY', 'CENT_LAT', 'CENT_LONG']]
-print(df_lat_lon)
+# print(df_lat_lon)
+
+# df = pd.merge(df, df_lat_lon, how='left', left_on=['county'], right_on=['COUNTY'])
+df_revenue = pd.merge(df_revenue, df_lat_lon, how='left', left_on=['county'], right_on=['COUNTY'])
+# df_revenue = pd.concat([df_revenue, df_lat_lon])
+# 
+# print(df_revenue)
+
 
 # print(sources)
 counties_list = []
@@ -153,7 +167,23 @@ def revenue_App():
                                    max=2050,
                                    step=1,
                                    # options=[{'label':x, 'value':x} for x in range(2022, 2050)],
-                                   value=2021
+                                   value=2014
+                              ),
+                    ],
+                         className='eight columns'
+                    ),
+               ],
+                    className='row'
+               ),
+               html.Div([
+                    html.Div([
+                         dcc.Slider(
+                                   id='month',
+                                   min=1,
+                                   max=12,
+                                   step=1,
+                                   # options=[{'label':x, 'value':x} for x in range(2022, 2050)],
+                                   value=1
                               ),
                     ],
                          className='eight columns'
