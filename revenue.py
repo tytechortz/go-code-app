@@ -23,6 +23,7 @@ df_pop['totalpopulation'] = df_pop['totalpopulation'].astype(int)
 df_pop = df_pop.drop(['age', 'malepopulation', 'femalepopulation'], axis=1)
 df_pop = df_pop.groupby(['year', 'county'], as_index=False)['totalpopulation'].sum()
 df_pop['county'] = df_pop['county'].str.upper()
+df_pop['year'] = df_pop['year'].astype(int)
 
 df_revenue = pd.DataFrame.from_records(mj_results)
 df_revenue['county'] = df_revenue['county'].str.upper()
@@ -32,6 +33,8 @@ df_revenue.fillna(0, inplace=True)
 df_revenue['med_sales'] = df_revenue['med_sales'].astype(int)
 df_revenue['rec_sales'] = df_revenue['rec_sales'].astype(int)
 df_revenue['tot_sales'] = df_revenue['med_sales'] + df_revenue['rec_sales']
+df_revenue['month'] = df_revenue['month'].astype(int)
+df_revenue['year'] = df_revenue['year'].astype(int)
 df_revenue.loc[df_revenue['tot_sales'] > 0, 'color'] = 'red'
 df_revenue.loc[df_revenue['tot_sales'] == 0, 'color'] = 'blue'
 df_revenue = df_revenue.drop(['med_blank_code','rec_blank_code'], 1)
@@ -46,7 +49,7 @@ df['rec_rev_pc'] = np.where(df['rec_sales'] == 0, 0, df['rec_sales'] / df['total
 
 df['Date'] = pd.to_datetime(df[['year', 'month']].assign(Day=1))
 df = df.set_index('Date')
-df = df.sort_values('county')
+df = df.sort_values(['county', 'year', 'month'])
 
 # print(df)
 # print(df_revenue)

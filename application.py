@@ -148,8 +148,8 @@ def update_rev_map(selected_year):
      # selected_rec_rev = rpd_s.loc[ : ,'Rper_cap_rec_'+year2+'']
      # print(selected_med_rev)
 
-     selected_med_rev = df[(df['county'] == 'ADAMS')]
-     df.sort_values('id', inplace=True)
+     selected_med_rev = df[(df['county'] == 'ADAMS') & (df['year'] == '2017')]
+     # df.sort_values('id', inplace=True)
      print(selected_med_rev)
      # selected_rec_rev = rpd_s.loc[ : ,'Rper_cap_rec_'+year2+'']
      
