@@ -45,6 +45,7 @@ df['med_rev_pc'] = np.where(df['med_sales'] == 0, 0, df['med_sales'] / df['total
 df['rec_rev_pc'] = np.where(df['rec_sales'] == 0, 0, df['rec_sales'] / df['totalpopulation'])
 
 df['Date'] = pd.to_datetime(df[['year', 'month']].assign(Day=1))
+df = df.set_index('Date')
 
 # print(df)
 # print(df_revenue)
