@@ -105,15 +105,19 @@ def display_cnty_pop(clickData, selected_year):
      [Input('revenue-map', 'clickData'),
      Input('year', 'value')])
 def county_pop_stats(clickData, selected_year):
-     # print(selected_year[0])
-     current_year = df_pop['year'] == str(selected_year[0])
+     print(selected_year)
+     print(df_pop)
+     print(selected_year[0])
+     current_year = df_pop['year'] == selected_year[0]
      # print(current_year)
-     projected_year = df_pop['year'] == str(selected_year[1])
+     projected_year = df_pop['year'] == selected_year[1]
      county = clickData['points'][-1]['text']
+     print(county)
      selected_county = df_pop['county'] == county
+     print(selected_county)
      current_pop = df_pop[current_year & selected_county]
      selected_year_pop = df_pop[projected_year & selected_county]
-     # print(selected_year_pop)
+     print(selected_year_pop)
      if selected_year_pop.iloc[-1][-1] > current_pop.iloc[-1][-1]:
           pop_change = (selected_year_pop.iloc[-1][-1] - current_pop.iloc[-1][-1]) / current_pop.iloc[-1][-1]
      else:
@@ -140,11 +144,11 @@ def county_pop_stats(clickData, selected_year):
      [Input('year2', 'value'),
      Input('month', 'value')])         
 def update_rev_map(selected_year, selected_month):
-     print(selected_year)
+     # print(selected_year)
 #     year='2018'
-     print(selected_month)
+     # print(selected_month)
      year1 = selected_year
-     print(year1)
+     # print(year1)
      # year2 = year1[-2:]
      # print(year2)
      rpd_s = rpd.sort_values(by=['RId2'])
@@ -176,7 +180,7 @@ def update_rev_map(selected_year, selected_month):
      # print(selected_rev)
      # selected_rec_rev = rpd_s.loc[ : ,'Rper_cap_rec_'+year2+'']
      # print(df_year)
-     print(df_year)
+     # print(df_year)
 
      df_smr = pd.DataFrame({'county': df_year['county'], 'year': df_year.year, 'total': df_year.tot_sales,'CENT_LAT':df_year.CENT_LAT,
                     'CENT_LON':df_year.CENT_LONG, 'marker_size':(df_year.tot_sales)*(.2**9.5)})
@@ -188,7 +192,7 @@ def update_rev_map(selected_year, selected_month):
      # df_year = df.loc[df['year'] == int(year1)]
      # print(df_year)
      # df_smr = df_smr.loc(df_smr['year'] == selected_year)
-     print(df_smr)
+     # print(df_smr)
  
      df_smr_filtered = df_smr.loc[df_year['color'] == 'red']
 
