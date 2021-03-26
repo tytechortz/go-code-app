@@ -31,7 +31,7 @@ df_pop = df_pop.groupby(['year', 'county'], as_index=False)['totalpopulation'].s
 df_pop['county'] = df_pop['county'].str.upper()
 df_pop['year'] = df_pop['year'].astype(int)
 df_pop_pc = df_pop[(df_pop['year'] >= 2014) & (df_pop['year'] < current_year)]
-print(df_pop_pc)
+# print(df_pop_pc)
 
 df_revenue = pd.DataFrame.from_records(mj_results)
 df_revenue['county'] = df_revenue['county'].str.upper()
@@ -55,12 +55,12 @@ df_revenue['year'] = df_revenue['year'].astype(int)
 # df_revenue = df_revenue.drop(['med_blank_code','rec_blank_code'], 1)
 
 df_rev_pc = df_revenue[(df_revenue['year'] >= 2014) & (df_revenue['year'] < current_year)]
-print(df_rev_pc)
+# print(df_rev_pc)
 df_pc = pd.merge(df_rev_pc, df_pop, how='left', left_on=['county', 'year'], right_on=['county', 'year'])
 
 df_pc.loc[df_pc['tot_sales'] > 0, 'color'] = 'red'
 df_pc.loc[df_pc['tot_sales'] == 0, 'color'] = 'blue'
-print(df_pc)
+# print(df_pc)
 
 # df['rev_per_cap'] = np.where(df['tot_sales'] == 0, 0, df['tot_sales'] / df['totalpopulation'])
 
@@ -116,7 +116,8 @@ df_revenue = pd.merge(df_revenue, df_lat_lon, how='left', left_on=['county'], ri
 # 
 # print(df_revenue)
 
-
+df_pc = pd.merge(df_pc, df_lat_lon, how='left', left_on=['county'], right_on=['COUNTY'])
+df_pc['pc_rev'] = df_pc['tot_sales'] / df_pc['totalpopulation']
 # print(sources)
 counties_list = []
 
@@ -154,9 +155,10 @@ def revenue_App():
                                         {'label':'Total Revenue',
                                         'value':'tot-rev'},
                                         {'label':'Per Capita Revenue',
-                                        'value':'per-cap'}
+                                        'value':'per-cap'},
                                    ],
-                                        labelStyle={'display':'inline-block'}
+                                   labelStyle={'display':'inline-block'},
+                                   value='tot-rev'
                                    ),
                          ],
                               className='eight columns'
