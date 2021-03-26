@@ -56,8 +56,11 @@ df_revenue['year'] = df_revenue['year'].astype(int)
 
 df_rev_pc = df_revenue[(df_revenue['year'] >= 2014) & (df_revenue['year'] < current_year)]
 print(df_rev_pc)
-df = pd.merge(df_rev_pc, df_pop, how='left', left_on=['county', 'year'], right_on=['county', 'year'])
-print(df)
+df_pc = pd.merge(df_rev_pc, df_pop, how='left', left_on=['county', 'year'], right_on=['county', 'year'])
+
+df_pc.loc[df_pc['tot_sales'] > 0, 'color'] = 'red'
+df_pc.loc[df_pc['tot_sales'] == 0, 'color'] = 'blue'
+print(df_pc)
 
 # df['rev_per_cap'] = np.where(df['tot_sales'] == 0, 0, df['tot_sales'] / df['totalpopulation'])
 

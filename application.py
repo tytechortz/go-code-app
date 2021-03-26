@@ -6,7 +6,7 @@ import dash_html_components as html
 from dash.dependencies import Input, Output, State
 import plotly.express as px
 from homepage import Homepage
-from revenue import revenue_App, df_pop, rpd, counties, df_revenue, sources 
+from revenue import revenue_App, df_pop, rpd, counties, df_revenue, sources, df_pc
 import os
 from dotenv import load_dotenv
 
