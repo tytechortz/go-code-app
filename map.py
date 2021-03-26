@@ -39,6 +39,9 @@ counties = gpd.read_file('./Colorado_County_Boundaries.geojson')
 # counties_s = counties.sort_values(by=['US_FIPS'])
 
 df_pop = pd.DataFrame.from_records(pop_results)
+df_pop['totalpopulation'] = df_pop['totalpopulation'].astype(int)
+df_pop = df_pop.drop(['age', 'malepopulation', 'femalepopulation'], axis=1)
+print(df_pop)
 
 df_revenue = pd.DataFrame.from_records(mj_results)
 df_revenue['county'] = df_revenue['county'].str.upper()
@@ -168,9 +171,10 @@ def update_rev_map(selected_year, selected_month):
      rpd_s = rpd_s.fillna(0)
 
      counties_s = counties.sort_values(by=['US_FIPS'])
+     # print(df_revenue)
     
      df_year = df_revenue.loc[df_revenue['year'] == str(selected_year)] 
-   
+     # print(df_year)
 
      df_smr = pd.DataFrame({'county': df_year['county'], 'year': df_year.year, 'total': df_year.tot_sales,'CENT_LAT':df_year.CENT_LAT,
                     'CENT_LON':df_year.CENT_LONG, 'marker_size':(df_year.tot_sales)*(.2**9.5)})
