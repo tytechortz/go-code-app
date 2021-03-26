@@ -134,6 +134,28 @@ def revenue_App():
                html.Div([
                     html.Div([
                          html.Div([
+                              dcc.RadioItems(
+                                   id='tot-per-select',
+                                   options=[
+                                        {'label':'Total Revenue',
+                                        'value':'tot-rev'},
+                                        {'label':'Per Capita Revenue',
+                                        'value':'per-cap'}
+                                   ],
+                                        labelStyle={'display':'inline-block'}
+                                   ),
+                         ],
+                              className='eight columns'
+                         ),
+                    ],
+                         className='eight columns'
+                    ),
+               ],
+                    className='row'
+               ),
+               html.Div([
+                    html.Div([
+                         html.Div([
                               dcc.Graph('revenue-map')
                          ],
                               className='twelve colums'
