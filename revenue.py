@@ -146,22 +146,6 @@ def revenue_App():
                ),
                html.Div([
                     html.Div([
-                         dcc.RangeSlider(
-                                   id='year',
-                                   min=1990,
-                                   max=2050,
-                                   step=1,
-                                   # options=[{'label':x, 'value':x} for x in range(2022, 2050)],
-                                   value=[2021,2050]
-                              ),
-                    ],
-                         className='eight columns'
-                    ),
-               ],
-                    className='row'
-               ),
-               html.Div([
-                    html.Div([
                          dcc.Slider(
                                    id='year2',
                                    min=2014,
@@ -185,6 +169,22 @@ def revenue_App():
                                    step=1,
                                    # options=[{'label':x, 'value':x} for x in range(2022, 2050)],
                                    value=1
+                              ),
+                    ],
+                         className='eight columns'
+                    ),
+               ],
+                    className='row'
+               ),
+               html.Div([
+                    html.Div([
+                         dcc.RangeSlider(
+                                   id='year',
+                                   min=1990,
+                                   max=2050,
+                                   step=1,
+                                   # options=[{'label':x, 'value':x} for x in range(2022, 2050)],
+                                   value=[2021,2050]
                               ),
                     ],
                          className='eight columns'

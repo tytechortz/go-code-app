@@ -35,7 +35,7 @@ app.layout = html.Div([
             [Input('url', 'pathname')])
 def display_page(pathname):
      if pathname == '/revenue':
-          return map_App()
+          return revenue_App()
      else:
           return Homepage()   
           
@@ -105,19 +105,19 @@ def display_cnty_pop(clickData, selected_year):
      [Input('revenue-map', 'clickData'),
      Input('year', 'value')])
 def county_pop_stats(clickData, selected_year):
-     print(selected_year)
-     print(df_pop)
-     print(selected_year[0])
+     # print(selected_year)
+     # print(df_pop)
+     # print(selected_year[0])
      current_year = df_pop['year'] == selected_year[0]
      # print(current_year)
      projected_year = df_pop['year'] == selected_year[1]
      county = clickData['points'][-1]['text']
-     print(county)
+     # print(county)
      selected_county = df_pop['county'] == county
-     print(selected_county)
+     # print(selected_county)
      current_pop = df_pop[current_year & selected_county]
      selected_year_pop = df_pop[projected_year & selected_county]
-     print(selected_year_pop)
+     # print(selected_year_pop)
      if selected_year_pop.iloc[-1][-1] > current_pop.iloc[-1][-1]:
           pop_change = (selected_year_pop.iloc[-1][-1] - current_pop.iloc[-1][-1]) / current_pop.iloc[-1][-1]
      else:
