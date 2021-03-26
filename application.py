@@ -160,7 +160,7 @@ def update_rev_map(selected_year, selected_month, tot_per):
      elif tot_per == 'per-cap':
           df_year = df_pc.loc[df_pc['year'] == selected_year]
           df_smr = pd.DataFrame({'county': df_year['county'], 'year': df_year.year, 'revenue per cap.': df_year.pc_rev,'CENT_LAT':df_year.CENT_LAT,
-                         'CENT_LON':df_year.CENT_LONG, 'marker_size':(df_year.pc_rev)*(.2**9.5)})
+                         'CENT_LON':df_year.CENT_LONG, 'marker_size':(df_year.pc_rev)*(.5**4)})
 
           df_smr_filtered = df_smr.loc[df_year['color'] == 'red']
      print(df_smr)
