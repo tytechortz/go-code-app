@@ -35,7 +35,7 @@ app.layout = html.Div([
             [Input('url', 'pathname')])
 def display_page(pathname):
      if pathname == '/revenue':
-          return revenue_App()
+          return map_App()
      else:
           return Homepage()   
           
