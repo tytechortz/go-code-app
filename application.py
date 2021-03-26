@@ -51,39 +51,6 @@ def display_month_selector(county):
           className='pretty_container'
      ),
 
-# @app.callback(
-#     Output('year-selector', 'children'),
-#     [Input('year', 'value')])
-# def display_month_selector(year):
-     
-#      return html.P('Select Year', style={'text-align': 'center'}), html.Div([
-#           dcc.RangeSliderr(id='year'),
-#      ],
-#           className='pretty_container'
-#      ),
-
-# @app.callback(
-#     Output('year-selector2', 'children'),
-#     [Input('year2', 'value')])
-# def display_month_selector(year):
-     
-#      return html.P('Select Year', style={'text-align': 'center'}), html.Div([
-#           dcc.Sliderr(id='year2'),
-#      ],
-#           className='pretty_container'
-#      ),
-
-# @app.callback(
-#     Output('month-selector', 'children'),
-#     [Input('y', 'value')])
-# def display_month_selector(year):
-     
-#      return html.P('Select Year', style={'text-align': 'center'}), html.Div([
-#           dcc.Sliderr(id='year2'),
-#      ],
-#           className='pretty_container'
-#      ),
-
 
 @app.callback(
      Output('county-pop-graph', 'figure'),
