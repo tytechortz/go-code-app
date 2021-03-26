@@ -10,6 +10,7 @@ from revenue import revenue_App, df_pop, rpd, counties, df_revenue, sources
 import os
 from dotenv import load_dotenv
 
+
 load_dotenv()
 
 # require('dotenv').config()
@@ -151,6 +152,8 @@ def update_rev_map(selected_year, selected_month):
 
      df_smr = pd.DataFrame({'county': df_year['county'], 'year': df_year.year, 'total': df_year.tot_sales,'CENT_LAT':df_year.CENT_LAT,
                     'CENT_LON':df_year.CENT_LONG, 'marker_size':(df_year.tot_sales)*(.2**9.5)})
+
+     
      
      # df_smr = pd.DataFrame({'name': selected_rev.index, 'med_rev': selected_med_rev.values, 'rec_rev': 
      #           selected_rec_rev.values, 'tot_rev': selected_med_rev.values + selected_rec_rev.values,'CENT_LAT':counties_s['CENT_LAT'],

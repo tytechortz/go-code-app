@@ -7,11 +7,17 @@ import geopandas as gpd
 from sodapy import Socrata
 import json
 import numpy as np
+from datetime import datetime
+
 
 app = dash.Dash()
 app.config['suppress_callback_exceptions']=True
 
 server = app.server
+
+today = datetime.today()
+current_year = today.year
+
 
 client = Socrata("data.colorado.gov", None)
 
@@ -24,7 +30,8 @@ df_pop = df_pop.drop(['age', 'malepopulation', 'femalepopulation'], axis=1)
 df_pop = df_pop.groupby(['year', 'county'], as_index=False)['totalpopulation'].sum()
 df_pop['county'] = df_pop['county'].str.upper()
 df_pop['year'] = df_pop['year'].astype(int)
-# print(df_pop)
+df_pop_pc = df_pop[(df_pop['year'] >= 2014) & (df_pop['year'] < current_year)]
+print(df_pop_pc)
 
 df_revenue = pd.DataFrame.from_records(mj_results)
 df_revenue['county'] = df_revenue['county'].str.upper()
@@ -39,14 +46,18 @@ df_revenue['tot_sales'] = df_revenue['med_sales'] + df_revenue['rec_sales']
 df_revenue = df_revenue.groupby(['year', 'county']).agg({'tot_sales': 'sum'})
 # print(df_revenue)
 df_revenue = df_revenue.reset_index()
-# print(df_revenue)
+
 # df_revenue['month'] = df_revenue['month'].astype(int)
 # df_revenue['year'] = df_revenue['year'].astype(int)
 df_revenue.loc[df_revenue['tot_sales'] > 0, 'color'] = 'red'
 df_revenue.loc[df_revenue['tot_sales'] == 0, 'color'] = 'blue'
+df_revenue['year'] = df_revenue['year'].astype(int)
 # df_revenue = df_revenue.drop(['med_blank_code','rec_blank_code'], 1)
 
-# df = pd.merge(df_revenue, df_pop, how='left', left_on=['county', 'year'], right_on=['county', 'year'])
+df_rev_pc = df_revenue[(df_revenue['year'] >= 2014) & (df_revenue['year'] < current_year)]
+print(df_rev_pc)
+df = pd.merge(df_rev_pc, df_pop, how='left', left_on=['county', 'year'], right_on=['county', 'year'])
+print(df)
 
 # df['rev_per_cap'] = np.where(df['tot_sales'] == 0, 0, df['tot_sales'] / df['totalpopulation'])
 
