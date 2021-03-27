@@ -249,7 +249,7 @@ def revenue_App():
                               dcc.Graph(
                                    id='county-pop-graph'),
                          ],
-                              className='eight columns'
+                              className='seven columns'
                          ),
                               html.Div([
                                    html.Div([
@@ -258,7 +258,7 @@ def revenue_App():
                                              className='round1'
                                         ), 
                               ],
-                                   className='three columns'
+                                   className='four columns'
                               ),
                          ],
                               className='twelve columns'

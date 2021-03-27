@@ -119,42 +119,13 @@ def update_rev_map(selected_year, selected_month, tot_per):
      # print(selected_month)
      year1 = selected_year
      print(year1)
-     # year2 = year1[-2:]
-     # print(year2)
-     # rpd_s = rpd.sort_values(by=['RId2'])
-     # print(rpd_s)
-     # rpd_s = rpd_s.apply(pd.to_numeric, errors='ignore')
-     # rpd_s = rpd_s.fillna(0)
-     # print(rpd_s.columns)
-
-     # counties_s = counties.sort_values(by=['US_FIPS'])
-     #     print(counties_s.columns)
-     # print(df_revenue.head())
-     # print(df)
-     # selected_med_rev = rpd_s.loc[ : ,'Rper_cap_med_'+year2+'']
-     # selected_rec_rev = rpd_s.loc[ : ,'Rper_cap_rec_'+year2+'']
-     # print(selected_med_rev)
-     # df1 = df
-     # df1['Date'] = pd.to_datetime(df[['year', 'month']].assign(Day=1))
-     # df1.set_index('Date', inplace=True)
-
-     # at = df1.groupby('county')['tot_sales'].resample('Y').sum()
+   
      print(df_pc.columns)
-     # df1 = df1.agg({'tot_sales': 'sum'})
-     # df1 = df.DataFrame
-     # print(at)
-     # print(df1.columns)
-     # print(type(df1.loc['Date']))
-      
-     # df.sort_values('id', inplace=True)
-     # print(selected_rev)
-     # selected_rec_rev = rpd_s.loc[ : ,'Rper_cap_rec_'+year2+'']
-     # print(df_year)
-     # print(df_year)
+
      if tot_per == 'tot-rev':
           df_year = df_revenue.loc[df_revenue['year'] == selected_year]
           df_smr = pd.DataFrame({'county': df_year['county'], 'year': df_year.year, 'total revenue': df_year.tot_sales,'CENT_LAT':df_year.CENT_LAT,
-                         'CENT_LON':df_year.CENT_LONG, 'marker_size':(df_year.tot_sales)*(.2**9.5)})
+                         'CENT_LON':df_year.CENT_LONG, 'marker_size':(df_year.tot_sales)*(.35**14)})
 
           df_smr_filtered = df_smr.loc[df_year['color'] == 'red']
      elif tot_per == 'per-cap':
@@ -165,19 +136,6 @@ def update_rev_map(selected_year, selected_month, tot_per):
           df_smr_filtered = df_smr.loc[df_year['color'] == 'red']
      print(df_smr)
 
-     
-     # df_smr = pd.DataFrame({'name': selected_rev.index, 'med_rev': selected_med_rev.values, 'rec_rev': 
-     #           selected_rec_rev.values, 'tot_rev': selected_med_rev.values + selected_rec_rev.values,'CENT_LAT':counties_s['CENT_LAT'],
-     #                'CENT_LON':counties_s['CENT_LONG'], 'marker_size':(selected_med_rev.values + selected_rec_rev.values)*(.3**3)})
-     #     print(df_smr.columns)
-     # df_year = df.loc[df['year'] == int(year1)]
-     # print(df_year)
-     # df_smr = df_smr.loc(df_smr['year'] == selected_year)
- 
-     
-
-     
-
      color_counties = df_smr_filtered['county'].unique().tolist()
      
      def fill_color():
@@ -186,7 +144,6 @@ def update_rev_map(selected_year, selected_month, tot_per):
                     sources[k]['features'][0]['properties']['COLOR'] = 'lightgreen'
                else: sources[k]['features'][0]['properties']['COLOR'] = 'white'                 
      fill_color()
-
     
      layers=[dict(sourcetype = 'json',
           source =sources[k],
