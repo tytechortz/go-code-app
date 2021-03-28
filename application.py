@@ -67,7 +67,7 @@ def display_cnty_pop(clickData, selected_year):
      df_county_pop_range = df_county_pop[(df_county_pop['year'] >= selected_year[0]) & (df_county_pop['year'] <= selected_year[1])]
      print(df_county_pop_range)
      
-     fig = px.bar(df_county_pop, x='year', y='totalpopulation')
+     fig = px.bar(df_county_pop_range, x='year', y='totalpopulation')
 
      return fig
 
