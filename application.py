@@ -62,7 +62,10 @@ def display_cnty_pop(clickData, selected_year):
      county = clickData['points'][-1]['text']
      # print(county)
      df_county_pop = df_pop[df_pop['county'] == county]
-     # print(df_county_pop)
+     print(df_county_pop)
+     print(selected_year)
+     df_county_pop_range = df_county_pop[(df_county_pop['year'] >= selected_year[0]) & (df_county_pop['year'] <= selected_year[1])]
+     print(df_county_pop_range)
      
      fig = px.bar(df_county_pop, x='year', y='totalpopulation')
 
@@ -113,14 +116,14 @@ def county_pop_stats(clickData, selected_year):
      Input('month', 'value'),
      Input('tot-per-select', 'value')])         
 def update_rev_map(selected_year, selected_month, tot_per):
-     print(tot_per)
-     print(selected_year)
+     # print(tot_per)
+     # print(selected_year)
 #     year='2018'
      # print(selected_month)
      year1 = selected_year
-     print(year1)
+     # print(year1)
    
-     print(df_pc.columns)
+     # print(df_pc.columns)
 
      if tot_per == 'tot-rev':
           df_year = df_revenue.loc[df_revenue['year'] == selected_year]
@@ -134,7 +137,7 @@ def update_rev_map(selected_year, selected_month, tot_per):
                          'CENT_LON':df_year.CENT_LONG, 'marker_size':(df_year.pc_rev)*(.5**4)})
 
           df_smr_filtered = df_smr.loc[df_year['color'] == 'red']
-     print(df_smr)
+     # print(df_smr)
 
      color_counties = df_smr_filtered['county'].unique().tolist()
      
