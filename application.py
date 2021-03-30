@@ -51,15 +51,19 @@ def display_cnty_pop(clickData, selected_year):
      print(selected_year)
      fig = make_subplots(specs=[[{"secondary_y":True}]])
 
+     # fig.add_trace(
+     #      go.Scatter(x=[1, 2, 3], y=[40, 50, 60], name="yaxis data"),
+     #      secondary_y=False,
+     # )
      fig.add_trace(
-          go.Scatter(x=[1, 2, 3], y=[40, 50, 60], name="yaxis data"),
+          go.Scatter(x=df_rev['year'], y=df_rev['tot_sales'], name="yaxis data"),
           secondary_y=False,
-    )
-
-     fig.add_trace(
-          go.Scatter(x=[2, 3, 4], y=[4, 5, 6], name="yaxis2 data"),
-          # secondary_y=radio_value == 'Secondary',
      )
+
+     # fig.add_trace(
+     #      go.Scatter(x=[2, 3, 4], y=[4, 5, 6], name="yaxis2 data"),
+     #      # secondary_y=radio_value == 'Secondary',
+     # )
 
 
      
