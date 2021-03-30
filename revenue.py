@@ -156,6 +156,8 @@ def revenue_App():
                                         'value':'tot-rev'},
                                         {'label':'Per Capita Revenue',
                                         'value':'per-cap'},
+                                        {'label':'Annual Rev Change',
+                                        'value':'ann-rev-chng'},
                                    ],
                                    labelStyle={'display':'inline-block'},
                                    value='tot-rev'
@@ -182,6 +184,7 @@ def revenue_App():
                ],
                     className='row'
                ),
+               
                html.Div([
                     html.Div([
                          dcc.Slider(
@@ -198,6 +201,31 @@ def revenue_App():
                ],
                     className='row'
                ),
+               html.Div([
+                    html.Div([
+                         html.Div([
+                              dcc.RadioItems(
+                                   id='graph-selector',
+                                   options=[
+                                        {'label':'Pop',
+                                        'value':'pop'},
+                                        {'label':'Rev',
+                                        'value':'rev'},
+                                   ],
+                                   labelStyle={'display':'inline-block'},
+                                   value='tot-rev'
+                                   ),
+                         ],
+                              className='eight columns'
+                         ),
+                    ],
+                         className='eight columns'
+                    ),
+
+               ],
+                    className='row'
+               ),
+               html.Div(id='pop-rev-controls'),
                html.Div([
                     html.Div([
                          dcc.Slider(

@@ -42,15 +42,15 @@ def display_cnty_pop(clickData, selected_year):
      county = clickData['points'][-1]['text']
      df_rev = df_revenue[df_revenue['county'] == county]
      df_rev = df_rev[df_rev['year'] < 2021]
-     print(df_rev)
+     # print(df_rev)
      # print(clickData)
      
      # print(county)
      df_county_pop = df_pop[df_pop['county'] == county]
-     print(df_county_pop)
-     print(selected_year)
+     # print(df_county_pop)
+     # print(selected_year)
 
-     df_county_pop_range = df_county_pop[(df_county_pop['year'] >= 2014) & (df_county_pop['year'] <= 2020)]
+     df_county_pop_range = df_county_pop[(df_county_pop['year'] >= 2014) & (df_county_pop['year'] <= selected_year[1])]
 
      fig = make_subplots(specs=[[{"secondary_y":True}]])
 
@@ -58,14 +58,19 @@ def display_cnty_pop(clickData, selected_year):
      #      go.Scatter(x=[1, 2, 3], y=[40, 50, 60], name="yaxis data"),
      #      secondary_y=False,
      # )
-     fig.add_trace(
-          go.Scatter(x=df_rev['year'], y=df_rev['tot_sales'], name="yaxis data"),
-          secondary_y=False,
-     )
+
+     # years = [2014, 2015, 2016, 2017, 2018, 2019, 2020]
+
+     
 
      fig.add_trace(
           go.Scatter(x=df_county_pop_range['year'], y=df_county_pop_range['totalpopulation'], name="yaxis2 data"),
           secondary_y=True,
+     )
+
+     fig.add_trace(
+          go.Scatter(x=df_county_pop_range['year'], y=df_rev['tot_sales'], name="yaxis data"),
+          secondary_y=False,
      )
 
 
@@ -81,6 +86,14 @@ def display_cnty_pop(clickData, selected_year):
      # fig = px.bar(df_county_pop_range, x='year', y='totalpopulation')
 
      return fig
+
+@app.callback(Output('pop-rev-controls', 'children'),
+            [Input('graph-selector', 'value')])
+def display_pop_rev(pop_rev_choice):
+     if  pop_rev_choice == 'pop':
+          return html.H1('Wut Up?')
+     else:
+          return html.H1('Else')
 
 @app.callback(Output('page-content', 'children'),
             [Input('url', 'pathname')])
@@ -187,7 +200,10 @@ def update_rev_map(selected_year, selected_month, tot_per):
                          'CENT_LON':df_year.CENT_LONG, 'marker_size':(df_year.pc_rev)*(.5**4)})
 
           df_smr_filtered = df_smr.loc[df_year['color'] == 'red']
-     # print(df_smr)
+
+     elif tot_per == 'ann-rev-chng':
+          df_year = df_revenue.loc[df_revenue['year'] == selected_year]
+          print(df_revenue)
 
      color_counties = df_smr_filtered['county'].unique().tolist()
      
