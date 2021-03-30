@@ -213,7 +213,7 @@ def revenue_App():
                                         'value':'rev'},
                                    ],
                                    labelStyle={'display':'inline-block'},
-                                   value='tot-rev'
+                                   value='pop'
                                    ),
                          ],
                               className='eight columns'

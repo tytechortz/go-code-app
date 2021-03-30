@@ -149,62 +149,69 @@ def display_month_selector(county):
      ),
 
 
-# @app.callback(
-#      Output('county-pop-graph', 'figure'),
-#      [Input('revenue-map', 'clickData'),
-#      Input('year', 'value')])
-# def display_cnty_pop(clickData, selected_year):
-#      # print(clickData)
-#      county = clickData['points'][-1]['text']
-#      # print(county)
-#      df_county_pop = df_pop[df_pop['county'] == county]
-#      print(df_county_pop)
-#      print(selected_year)
-#      df_county_pop_range = df_county_pop[(df_county_pop['year'] >= selected_year[0]) & (df_county_pop['year'] <= selected_year[1])]
-#      print(df_county_pop_range)
+@app.callback(
+     Output('county-pop-graph', 'figure'),
+     [Input('revenue-map', 'clickData'),
+     Input('year', 'value')])
+def display_cnty_pop(clickData, selected_year):
+     # print(clickData)
+     if clickData is None:
+          county = 'DENVER'
+     else:
+          county = clickData['points'][-1]['text']
+     # print(county)
+     df_county_pop = df_pop[df_pop['county'] == county]
+     print(df_county_pop)
+     print(selected_year)
+     df_county_pop_range = df_county_pop[(df_county_pop['year'] >= selected_year[0]) & (df_county_pop['year'] <= selected_year[1])]
+     print(df_county_pop_range)
      
-#      fig = px.bar(df_county_pop_range, x='year', y='totalpopulation')
+     fig = px.bar(df_county_pop_range, x='year', y='totalpopulation')
 
-#      return fig
+     return fig
 
-# @app.callback(
-#      Output('pop-stats', 'children'),
-#      [Input('revenue-map', 'clickData'),
-#      Input('year', 'value')])
-# def county_pop_stats(clickData, selected_year):
-#      # print(selected_year)
-#      # print(df_pop)
-#      # print(selected_year[0])
-#      current_year = df_pop['year'] == selected_year[0]
-#      # print(current_year)
-#      projected_year = df_pop['year'] == selected_year[1]
-#      county = clickData['points'][-1]['text']
-#      # print(county)
-#      selected_county = df_pop['county'] == county
-#      # print(selected_county)
-#      current_pop = df_pop[current_year & selected_county]
-#      selected_year_pop = df_pop[projected_year & selected_county]
-#      # print(selected_year_pop)
-#      if selected_year_pop.iloc[-1][-1] > current_pop.iloc[-1][-1]:
-#           pop_change = (selected_year_pop.iloc[-1][-1] - current_pop.iloc[-1][-1]) / current_pop.iloc[-1][-1]
-#      else:
-#           pop_change = -((current_pop.iloc[-1][-1] - selected_year_pop.iloc[-1][-1]) / current_pop.iloc[-1][-1])
-#      # print(pop_2050)
-#      return html.Div([
-#                html.Div('{} County Pop. Stats'.format(county), style={'text-align':'center'}),
-#                html.Div([
-#                     html.Div('{} Population'.format(selected_year[0]), style={'text-align':'center'}),
-#                     html.Div('{:,.0f}'.format(current_pop.iloc[-1][-1]), style={'text-align':'center'}),
-#                     html.Div('{} Population'.format(selected_year[1]), style={'text-align':'center'}),
-#                     html.Div('{:,.0f}'.format(selected_year_pop.iloc[-1][-1]), style={'text-align':'center'}),
-#                     html.Div('Projected Change', style={'text-align':'center'}),
-#                     html.Div('{0:.0%}'.format(pop_change), style={'text-align':'center'}),
-#                ],
-#                     className='round1'
-#                ),
-#           ],
-#                className='round1'
-#           ),
+@app.callback(
+     Output('pop-stats', 'children'),
+     [Input('revenue-map', 'clickData'),
+     Input('year', 'value')])
+def county_pop_stats(clickData, selected_year):
+     if clickData is None:
+          county = 'DENVER'
+     else:
+          county = clickData['points'][-1]['text']
+     # print(selected_year)
+     # print(df_pop)
+     # print(selected_year[0])
+     current_year = df_pop['year'] == selected_year[0]
+     # print(current_year)
+     projected_year = df_pop['year'] == selected_year[1]
+     
+     # print(county)
+     selected_county = df_pop['county'] == county
+     # print(selected_county)
+     current_pop = df_pop[current_year & selected_county]
+     selected_year_pop = df_pop[projected_year & selected_county]
+     # print(selected_year_pop)
+     if selected_year_pop.iloc[-1][-1] > current_pop.iloc[-1][-1]:
+          pop_change = (selected_year_pop.iloc[-1][-1] - current_pop.iloc[-1][-1]) / current_pop.iloc[-1][-1]
+     else:
+          pop_change = -((current_pop.iloc[-1][-1] - selected_year_pop.iloc[-1][-1]) / current_pop.iloc[-1][-1])
+     # print(pop_2050)
+     return html.Div([
+               html.Div('{} County Pop. Stats'.format(county), style={'text-align':'center'}),
+               html.Div([
+                    html.Div('{} Population'.format(selected_year[0]), style={'text-align':'center'}),
+                    html.Div('{:,.0f}'.format(current_pop.iloc[-1][-1]), style={'text-align':'center'}),
+                    html.Div('{} Population'.format(selected_year[1]), style={'text-align':'center'}),
+                    html.Div('{:,.0f}'.format(selected_year_pop.iloc[-1][-1]), style={'text-align':'center'}),
+                    html.Div('Projected Change', style={'text-align':'center'}),
+                    html.Div('{0:.0%}'.format(pop_change), style={'text-align':'center'}),
+               ],
+                    className='round1'
+               ),
+          ],
+               className='round1'
+          ),
 
 @app.callback(
      Output('revenue-map', 'figure'),
