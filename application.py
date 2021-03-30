@@ -39,9 +39,9 @@ app.layout = html.Div([
 #      [Input('revenue-map', 'clickData'),
 #      Input('year', 'value')])
 # def display_cnty_pop(clickData, selected_year):
-#      county = clickData['points'][-1]['text']
-#      df_rev = df_revenue[df_revenue['county'] == county]
-#      df_rev = df_rev[df_rev['year'] < 2021]
+     # county = clickData['points'][-1]['text']
+     # df_rev = df_revenue[df_revenue['county'] == county]
+     # df_rev = df_rev[df_rev['year'] < 2021]
 #      # print(df_rev)
 #      # print(clickData)
      
@@ -90,7 +90,7 @@ app.layout = html.Div([
 @app.callback(Output('pop-rev-controls', 'children'),
             [Input('graph-selector', 'value')])
 def display_pop_rev(pop_rev_choice):
-     if  pop_rev_choice == 'pop':
+     if  pop_rev_choice == 'pop' or 'rev':
           return html.Div([
                html.Div([
                     html.Div([
@@ -146,29 +146,57 @@ def display_month_selector(county):
           dcc.Dropdown(id='county'),
      ],
           className='pretty_container'
-     ),
+     )
+
+@app.callback(
+    Output('pop-rev-graph-selection', 'children'),
+    [Input('graph-selector', 'value')])
+def display_pop_rev_graph(pop_rev):
+     if pop_rev == 'pop':
+          return 'pop'
+     else:
+          return 'rev'
+     # return html.P('Select County', style={'text-align': 'center'}), html.Div([
+     #      dcc.Dropdown(id='county'),
+     # ],
+     #      className='pretty_container'
+     # ),
 
 
 @app.callback(
-     Output('county-pop-graph', 'figure'),
+     Output('county-pop-rev-graph', 'figure'),
      [Input('revenue-map', 'clickData'),
-     Input('year', 'value')])
-def display_cnty_pop(clickData, selected_year):
-     # print(clickData)
-     if clickData is None:
-          county = 'DENVER'
-     else:
-          county = clickData['points'][-1]['text']
-     # print(county)
-     df_county_pop = df_pop[df_pop['county'] == county]
-     print(df_county_pop)
-     print(selected_year)
-     df_county_pop_range = df_county_pop[(df_county_pop['year'] >= selected_year[0]) & (df_county_pop['year'] <= selected_year[1])]
-     print(df_county_pop_range)
-     
-     fig = px.bar(df_county_pop_range, x='year', y='totalpopulation')
+     Input('year', 'value'),
+     Input('pop-rev-graph-selection', 'children')])
+def display_cnty_pop(clickData, selected_year, pop_rev):
+     print(pop_rev)
+     if pop_rev == 'pop':
+          if clickData is None:
+               county = 'DENVER'
+          else:
+               county = clickData['points'][-1]['text']
+          # print(county)
+          df_county_pop = df_pop[df_pop['county'] == county]
+          # print(df_county_pop)
+          # print(selected_year)
+          df_county_pop_range = df_county_pop[(df_county_pop['year'] >= selected_year[0]) & (df_county_pop['year'] <= selected_year[1])]
+          # print(df_county_pop_range)
+          
+          fig = px.bar(df_county_pop_range, x='year', y='totalpopulation')
 
-     return fig
+          return fig
+     else:
+          if clickData is None:
+               county = 'DENVER'
+          else:
+               county = clickData['points'][-1]['text']
+          df_rev = df_revenue[df_revenue['county'] == county]
+          df_rev = df_rev[df_rev['year'] < 2021]
+
+          fig = px.bar(df_rev, x='year', y='tot_sales')
+
+          return fig
+
 
 @app.callback(
      Output('pop-stats', 'children'),
