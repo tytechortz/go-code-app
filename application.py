@@ -92,7 +92,7 @@ def display_cnty_pop(clickData, selected_year):
 def display_pop_rev(pop_rev_choice):
      if  pop_rev_choice == 'pop':
           return html.H1('Wut Up?')
-     else:
+     elif pop_rev_choice == 'rev':
           return html.H1('Else')
 
 @app.callback(Output('page-content', 'children'),
