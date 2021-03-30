@@ -65,7 +65,7 @@ def display_cnty_pop(clickData, selected_year):
 
      fig.add_trace(
           go.Scatter(x=df_county_pop_range['year'], y=df_county_pop_range['totalpopulation'], name="yaxis2 data"),
-          # secondary_y=radio_value == 'Secondary',
+          secondary_y=True,
      )
 
 
