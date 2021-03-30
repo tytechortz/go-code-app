@@ -9,6 +9,8 @@ from homepage import Homepage
 from revenue import revenue_App, df_pop, rpd, counties, df_revenue, sources, df_pc
 import os
 from dotenv import load_dotenv
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
 
 
 load_dotenv()
@@ -32,6 +34,47 @@ app.layout = html.Div([
     html.Div(id = 'page-content')
 ])
 
+@app.callback(
+     Output('county-pop-graph', 'figure'),
+     [Input('revenue-map', 'clickData'),
+     Input('year', 'value')])
+def display_cnty_pop(clickData, selected_year):
+     county = clickData['points'][-1]['text']
+     df_rev = df_revenue[df_revenue['county'] == county]
+     df_rev = df_rev[df_rev['year'] < 2021]
+     print(df_rev)
+     # print(clickData)
+     
+     # print(county)
+     df_county_pop = df_pop[df_pop['county'] == county]
+     print(df_county_pop)
+     print(selected_year)
+     fig = make_subplots(specs=[[{"secondary_y":True}]])
+
+     fig.add_trace(
+          go.Scatter(x=[1, 2, 3], y=[40, 50, 60], name="yaxis data"),
+          secondary_y=False,
+    )
+
+     fig.add_trace(
+          go.Scatter(x=[2, 3, 4], y=[4, 5, 6], name="yaxis2 data"),
+          # secondary_y=radio_value == 'Secondary',
+     )
+
+
+     
+     # trace1 = go.Bar(x=df_rev['tot_sales'],
+     #                 y=df_rev['year'])
+
+     
+
+     # df_county_pop_range = df_county_pop[(df_county_pop['year'] >= selected_year[0]) & (df_county_pop['year'] <= selected_year[1])]
+     # print(df_county_pop_range)
+     
+     # fig = px.bar(df_county_pop_range, x='year', y='totalpopulation')
+
+     return fig
+
 @app.callback(Output('page-content', 'children'),
             [Input('url', 'pathname')])
 def display_page(pathname):
@@ -53,23 +96,23 @@ def display_month_selector(county):
      ),
 
 
-@app.callback(
-     Output('county-pop-graph', 'figure'),
-     [Input('revenue-map', 'clickData'),
-     Input('year', 'value')])
-def display_cnty_pop(clickData, selected_year):
-     # print(clickData)
-     county = clickData['points'][-1]['text']
-     # print(county)
-     df_county_pop = df_pop[df_pop['county'] == county]
-     print(df_county_pop)
-     print(selected_year)
-     df_county_pop_range = df_county_pop[(df_county_pop['year'] >= selected_year[0]) & (df_county_pop['year'] <= selected_year[1])]
-     print(df_county_pop_range)
+# @app.callback(
+#      Output('county-pop-graph', 'figure'),
+#      [Input('revenue-map', 'clickData'),
+#      Input('year', 'value')])
+# def display_cnty_pop(clickData, selected_year):
+#      # print(clickData)
+#      county = clickData['points'][-1]['text']
+#      # print(county)
+#      df_county_pop = df_pop[df_pop['county'] == county]
+#      print(df_county_pop)
+#      print(selected_year)
+#      df_county_pop_range = df_county_pop[(df_county_pop['year'] >= selected_year[0]) & (df_county_pop['year'] <= selected_year[1])]
+#      print(df_county_pop_range)
      
-     fig = px.bar(df_county_pop_range, x='year', y='totalpopulation')
+#      fig = px.bar(df_county_pop_range, x='year', y='totalpopulation')
 
-     return fig
+#      return fig
 
 @app.callback(
      Output('pop-stats', 'children'),
