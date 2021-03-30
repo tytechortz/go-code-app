@@ -49,6 +49,9 @@ def display_cnty_pop(clickData, selected_year):
      df_county_pop = df_pop[df_pop['county'] == county]
      print(df_county_pop)
      print(selected_year)
+
+     df_county_pop_range = df_county_pop[(df_county_pop['year'] >= 2014) & (df_county_pop['year'] <= 2020)]
+
      fig = make_subplots(specs=[[{"secondary_y":True}]])
 
      # fig.add_trace(
@@ -60,10 +63,10 @@ def display_cnty_pop(clickData, selected_year):
           secondary_y=False,
      )
 
-     # fig.add_trace(
-     #      go.Scatter(x=[2, 3, 4], y=[4, 5, 6], name="yaxis2 data"),
-     #      # secondary_y=radio_value == 'Secondary',
-     # )
+     fig.add_trace(
+          go.Scatter(x=df_county_pop_range['year'], y=df_county_pop_range['totalpopulation'], name="yaxis2 data"),
+          # secondary_y=radio_value == 'Secondary',
+     )
 
 
      
