@@ -26,10 +26,10 @@ data['address'] = data['street_address'] + ', ' + data['city'] + ', ' + data['zi
 
 data['year'] = data['year'].astype(int)
 print(data.columns)
-data = data[(data['year'] > 2013) & data['year'] < 2015]
-df = data[data['year'] == 2014]
+data = data[(data['year'] > 2013) & data['year'] < 2016]
+# df = data[data['year'] == 2015]
 
-df = df.drop(['certification', 'license_no', 'street_address', 'dba'], axis=1)
+df = data.drop(['certification', 'license_no', 'street_address', 'dba'], axis=1)
 
 df['city_st'] = df['city'] + ', CO'
 
@@ -45,6 +45,9 @@ print(df.head())
 df_zip = pd.read_csv('./CO_zips.csv')
 df_zip['zip'] = df_zip['Zip']
 print(df_zip)
+df_zip['zip'] = df_zip['zip'].replace(np.nan, 0)
+df['zip'] = df['zip'].replace(np.nan, 0)
+# print(df_zip[df_zip['zip'].isnull()])
 df_zip['zip'] = df_zip['zip'].astype(int)
 df['zip'] = df['zip'].astype(int)
 
