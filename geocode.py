@@ -49,7 +49,9 @@ df_zip['zip'] = df_zip['zip'].astype(int)
 df['zip'] = df['zip'].astype(int)
 
 df = df.merge(df_zip, on=['zip', 'zip'], how='left')
-
+df = df.drop(['City', 'Zip'], axis=1)
+print(df)
+df = df.groupby(['County', 'year'])['licensee'].count()
 print(df)
 
 # df_sunrise = df[df['licensee'] == 'SUNRISE SOLUTIONS, LLC']
