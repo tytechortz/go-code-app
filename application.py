@@ -116,7 +116,7 @@ def display_pop_rev(pop_rev_choice):
                                    max=2050,
                                    step=1,
                                    # options=[{'label':x, 'value':x} for x in range(2022, 2050)],
-                                   value=[2021,2050]
+                                   value=[2014,2020]
                               ),
                     ],
                          className='eight columns'
@@ -208,10 +208,10 @@ def display_cnty_pop(clickData, selected_year, pop_rev):
      df_rev = df_rev[df_rev['year'] < 2021]
      print(df_rev)
      # print(clickData)
-     years = [1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003,
-         2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012]
      # print(county)
      df_county_pop = df_pop[df_pop['county'] == county]
+     df_county_pop = df_county_pop[(df_county_pop['year'] >= selected_year[0]) & (df_county_pop['year'] <= selected_year[1])]
+
      print(df_county_pop)
      print(selected_year)
 
@@ -233,8 +233,8 @@ def display_cnty_pop(clickData, selected_year, pop_rev):
                ),
           ],
           layout={
-               'yaxis': {'title': 'SF Zoo axis'},
-               'yaxis2': {'title': 'LA Zoo axis', 'overlaying': 'y', 'side': 'right'}
+               'yaxis': {'title': 'Population'},
+               'yaxis2': {'title': 'Revenue', 'overlaying': 'y', 'side': 'right'}
           }
      )
      # fig = make_subplots(specs=[[{"secondary_y":True}]])
