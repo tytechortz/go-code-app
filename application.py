@@ -214,7 +214,30 @@ def display_cnty_pop(clickData, selected_year, pop_rev):
      df_county_pop = df_pop[df_pop['county'] == county]
      print(df_county_pop)
      print(selected_year)
-     fig = go.Figure()
+
+     fig = go.Figure(
+          data=[
+               go.Bar(
+                    name='Annual Revenue',
+                    x=df_rev['year'],
+                    y=df_rev['tot_sales'],
+                    yaxis='y',
+                    offsetgroup=1
+               ),
+               go.Bar(
+                    name='Population',
+                    x=df_county_pop['year'],
+                    y=df_county_pop['totalpopulation'],
+                    yaxis='y2',
+                    offsetgroup=2
+               ),
+          ],
+          layout={
+               'yaxis': {'title': 'SF Zoo axis'},
+               'yaxis2': {'title': 'LA Zoo axis', 'overlaying': 'y', 'side': 'right'}
+          }
+     )
+     # fig = make_subplots(specs=[[{"secondary_y":True}]])
 
 
      # fig.add_trace(go.Bar(x=years,
@@ -230,12 +253,22 @@ def display_cnty_pop(clickData, selected_year, pop_rev):
      #            marker_color='rgb(26, 118, 255)'
      #            ))
 
-     fig.add_trace(go.Bar(
-          x=df_rev['year'],
-          y=df_rev['tot_sales']
-     ))
-     
+     # fig.add_trace(go.Bar(
+     #      x=df_rev['year'],
+     #      y=df_rev['tot_sales'],
+     #      name="Annual Revenue",
+     # ))
 
+     # fig.add_trace(go.Bar(
+     #      x=df_county_pop['year'],
+     #      y=df_county_pop['totalpopulation'],
+     #      name='Population',
+     # ))
+
+
+     
+     fig.update_layout(barmode='group')
+     # fig.show()
 
 
      # trace1 = go.Bar(x=df_rev['tot_sales'],
