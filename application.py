@@ -217,18 +217,23 @@ def display_cnty_pop(clickData, selected_year, pop_rev):
      fig = go.Figure()
 
 
-     fig.add_trace(go.Bar(x=years,
-                y=[219, 146, 112, 127, 124, 180, 236, 207, 236, 263,
-                   350, 430, 474, 526, 488, 537, 500, 439],
-                name='Rest of world',
-                marker_color='rgb(55, 83, 109)'
-                ))
-     fig.add_trace(go.Bar(x=years,
-                y=[16, 13, 10, 11, 28, 37, 43, 55, 56, 88, 105, 156, 270,
-                   299, 340, 403, 549, 499],
-                name='China',
-                marker_color='rgb(26, 118, 255)'
-                ))
+     # fig.add_trace(go.Bar(x=years,
+     #            y=[219, 146, 112, 127, 124, 180, 236, 207, 236, 263,
+     #               350, 430, 474, 526, 488, 537, 500, 439],
+     #            name='Rest of world',
+     #            marker_color='rgb(55, 83, 109)'
+     #            ))
+     # fig.add_trace(go.Bar(x=years,
+     #            y=[16, 13, 10, 11, 28, 37, 43, 55, 56, 88, 105, 156, 270,
+     #               299, 340, 403, 549, 499],
+     #            name='China',
+     #            marker_color='rgb(26, 118, 255)'
+     #            ))
+
+     fig.add_trace(go.Bar(
+          x=df_rev['year'],
+          y=df_rev['tot_sales']
+     ))
      
 
 
