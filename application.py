@@ -240,7 +240,7 @@ def display_cnty_pop(clickData, selected_year, pop_rev):
                go.Bar(
                     name='Business Count',
                     x=df_biz_count['year'],
-                    y=df_biz_count[2],
+                    y=df_biz_count['licensee'],
                     yaxis='y2',
                     offsetgroup=2
                ),
