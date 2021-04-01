@@ -6,7 +6,7 @@ import dash_html_components as html
 from dash.dependencies import Input, Output, State
 import plotly.express as px
 from homepage import Homepage
-from revenue import revenue_App, df_pop, rpd, counties, df_revenue, sources, df_pc
+from revenue import revenue_App, df_pop, rpd, counties, df_revenue, sources, df_pc, df_biz
 import os
 from dotenv import load_dotenv
 import plotly.graph_objects as go
@@ -212,7 +212,13 @@ def display_cnty_pop(clickData, selected_year, pop_rev):
      df_county_pop = df_pop[df_pop['county'] == county]
      df_county_pop = df_county_pop[(df_county_pop['year'] >= selected_year[0]) & (df_county_pop['year'] <= selected_year[1])]
 
-     # print(df_county_pop)
+     print(df_biz)
+     print(type(df_biz))
+
+     # df_biz_count = df_biz.get_group('Adams')
+     df_biz_count = df_biz[df_biz['County'] == county]
+     # df_biz_count = df_biz['year'] <= 2021
+     print(df_biz_count)
      # print(selected_year)
 
      fig = go.Figure(
@@ -224,10 +230,17 @@ def display_cnty_pop(clickData, selected_year, pop_rev):
                     yaxis='y',
                     offsetgroup=1
                ),
+               # go.Bar(
+               #      name='Population',
+               #      x=df_county_pop['year'],
+               #      y=df_county_pop['totalpopulation'],
+               #      yaxis='y2',
+               #      offsetgroup=2
+               # ),
                go.Bar(
-                    name='Population',
-                    x=df_county_pop['year'],
-                    y=df_county_pop['totalpopulation'],
+                    name='Business Count',
+                    x=df_biz_count['year'],
+                    y=df_biz_count[2],
                     yaxis='y2',
                     offsetgroup=2
                ),

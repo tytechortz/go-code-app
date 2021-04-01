@@ -124,6 +124,10 @@ df_biz = pd.DataFrame.from_records(biz_results)
 
 df_biz['address'] = df_biz['street_address'] + ', ' + df_biz['city'] + ', ' + df_biz['zip']
 
+# print(df_biz.head(20))
+
+
+
 df_biz['year'] = df_biz['year'].astype(int)
 
 df_biz = df_biz[(df_biz['year'] > 2013) & df_biz['year'] < 2021]
@@ -144,9 +148,11 @@ df_zip['zip'] = df_zip['zip'].astype(int)
 df_biz = df_biz.merge(df_zip, on=['zip', 'zip'], how='left')
 df_biz = df_biz.drop(['City', 'Zip'], axis=1)
 
-df_biz = df_biz.groupby(['County', 'year'])['licensee'].count()
+df_biz = df_biz.groupby(['County', 'year'])['licensee'].count().reset_index()
 
-print(df_biz)
+df_biz['County'] = df_biz['County'].str.upper()
+
+# print(df_biz)
 
 
 
