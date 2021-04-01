@@ -212,8 +212,8 @@ def display_cnty_pop(clickData, selected_year, pop_rev):
      df_county_pop = df_pop[df_pop['county'] == county]
      df_county_pop = df_county_pop[(df_county_pop['year'] >= selected_year[0]) & (df_county_pop['year'] <= selected_year[1])]
 
-     print(df_county_pop)
-     print(selected_year)
+     # print(df_county_pop)
+     # print(selected_year)
 
      fig = go.Figure(
           data=[
@@ -391,7 +391,7 @@ def update_rev_map(selected_year,tot_per):
 
      elif tot_per == 'ann-rev-chng':
           df_year = df_revenue.loc[df_revenue['year'] == selected_year]
-          print(df_revenue)
+          # print(df_revenue)
 
      color_counties = df_smr_filtered['county'].unique().tolist()
      

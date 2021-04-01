@@ -23,6 +23,7 @@ client = Socrata("data.colorado.gov", None)
 
 pop_results = client.get("q5vp-adf3", limit=381504)
 mj_results = client.get("j7a3-jgd3", limit=6000)
+biz_results = client.get("sqs8-2un5", limit=200000)
 
 df_pop = pd.DataFrame.from_records(pop_results)
 df_pop['totalpopulation'] = df_pop['totalpopulation'].astype(int)
@@ -119,6 +120,13 @@ df_revenue = pd.merge(df_revenue, df_lat_lon, how='left', left_on=['county'], ri
 df_pc = pd.merge(df_pc, df_lat_lon, how='left', left_on=['county'], right_on=['COUNTY'])
 df_pc['pc_rev'] = df_pc['tot_sales'] / df_pc['totalpopulation']
 # print(sources)
+df_biz = pd.DataFrame.from_records(biz_results)
+
+df_biz['address'] = df_biz['street_address'] + ', ' + df_biz['city'] + ', ' + df_biz['zip']
+print(df_biz)
+
+
+
 counties_list = []
 
 for i in df_pop.county.unique():
@@ -209,7 +217,7 @@ def revenue_App():
                                    options=[
                                         {'label':'Pop',
                                         'value':'pop'},
-                                        {'label':'Rev',
+                                        {'label':'Bus',
                                         'value':'rev'},
                                    ],
                                    labelStyle={'display':'inline-block'},
