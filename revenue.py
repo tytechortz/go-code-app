@@ -123,6 +123,29 @@ df_pc['pc_rev'] = df_pc['tot_sales'] / df_pc['totalpopulation']
 df_biz = pd.DataFrame.from_records(biz_results)
 
 df_biz['address'] = df_biz['street_address'] + ', ' + df_biz['city'] + ', ' + df_biz['zip']
+
+df_biz['year'] = df_biz['year'].astype(int)
+
+df_biz = df_biz[(df_biz['year'] > 2013) & df_biz['year'] < 2021]
+
+df_biz = df_biz.drop(['certification', 'license_no', 'street_address', 'dba'], axis=1)
+
+df_biz['city_st'] = df_biz['city'] + ', CO'
+df_biz = df_biz.drop_duplicates(subset=['licensee'])
+df_biz['zip'] = df_biz['zip'].replace(np.nan, 0)
+df_biz['zip'] = df_biz['zip'].astype(int)
+
+df_zip = pd.read_csv('./CO_zips.csv')
+df_zip['zip'] = df_zip['Zip']
+
+df_zip['zip'] = df_zip['zip'].replace(np.nan, 0)
+df_zip['zip'] = df_zip['zip'].astype(int)
+
+df_biz = df_biz.merge(df_zip, on=['zip', 'zip'], how='left')
+df_biz = df_biz.drop(['City', 'Zip'], axis=1)
+
+df_biz = df_biz.groupby(['County', 'year'])['licensee'].count()
+
 print(df_biz)
 
 
